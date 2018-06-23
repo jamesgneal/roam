@@ -1,17 +1,17 @@
 # Roam
 ### Team Members
-	•	Kyle Weingart
-	•	Graham Neal
-	•	Darien Brothers
-	•	Chris Zoghby
+* Kyle Weingart
+* Graham Neal
+* Darien Brothers
+* Chris Zoghby
 ### Description
 Have you ever visited a city and wished you had the local knowledge and know how to experience the very best the city had to offer? Roam is the app that will take you from tourist to tour guide in no time by using crowd sourced data to show where people are and what they are doing.  Users are able to:
-	•	choose from a list of categories including nightlife, food, outdoors, concerts, and scenic views
-	•	share their current location 
-	•	submit photos and comments geolocated to their shared location
-	•	save “favorite” locations 
-	•	add friends 
-	•	search for user locations based on friend list, time, categories 
+* choose from a list of categories including nightlife, food, outdoors, concerts, and scenic views
+* share their current location 
+* submit photos and comments geolocated to their shared location
+* save “favorite” locations 
+* add friends 
+* search for user locations based on friend list, time, categories 
 ### User Stories
 Chris just moved to D.C and wants to find a great place to watch the sunset near his new apartment when his girlfriend visits. He can search Roam for locations with scenic views close to his apartment. 
 Kyle is bored on a Friday night. He wants to find something to do. He can search Roam for places where lots of people have checked in and submitted photos in the last hour to help him decide what to do. 
