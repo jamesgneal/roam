@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarNav, NavItem, NavLink, Container } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
+import "./Navbar.css";
 
 class NavbarFeatures extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class NavbarFeatures extends React.Component {
     render() {
         return (
             <Router>
-                <Navbar light color="grey"  fixed="bottom">
+                <Navbar className="roam-navbar" light color="white" fixed="bottom">
                     <Container>
                     
                 
@@ -43,6 +44,9 @@ class NavbarFeatures extends React.Component {
                           </NavItem>
                           <NavItem>
                               <NavLink to="#">Saved Locations</NavLink>
+                          </NavItem>
+                          <NavItem>
+                              <NavLink to="#">Profile</NavLink>
                           </NavItem>
                           
                         </NavbarNav>
