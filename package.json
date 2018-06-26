@@ -10,6 +10,7 @@
     "nodemon": "^1.17.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-leaflet": "^1.9.1",
     "react-scripts": "1.1.4"
   },
   "scripts": {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, NavbarNav, NavItem, NavLink } from 'mdbreact';
+import { Navbar, NavbarNav, NavItem, NavLink, Container } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 class NavbarFeatures extends React.Component {
@@ -29,13 +29,12 @@ class NavbarFeatures extends React.Component {
     render() {
         return (
             <Router>
-                <Navbar color="indigo" dark expand="md" scrolling>
-                    <NavbarBrand href="/">
-                        <strong>Navbar</strong>
-                    </NavbarBrand>
+                <Navbar light color="grey"  fixed="bottom">
+                    <Container>
+                    
                 
                     
-                        <NavbarNav left>
+                        <NavbarNav center>
                           <NavItem active>
                               <NavLink to="#">Home</NavLink>
                           </NavItem>
@@ -47,7 +46,7 @@ class NavbarFeatures extends React.Component {
                           </NavItem>
                           
                         </NavbarNav>
-                        
+                     </Container>   
                 
                 </Navbar>
             </Router>
