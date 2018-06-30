@@ -1,7 +1,36 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+# Roam
+### Team Members
+* Kyle Weingart
+* Graham Neal
+* Darien Brothers
+* Chris Zoghby
+### Description
+Have you ever visited a city and wished you had the local knowledge and know how to experience the very best the city had to offer? Roam is the app that will take you from tourist to tour guide in no time by using crowd sourced data to show where people are and what they are doing.  Users are able to:
+* choose from a list of categories including nightlife, food, outdoors, concerts, and scenic views
+* share their current location 
+* submit photos and comments geolocated to their shared location
+* save “favorite” locations 
+* add friends 
+* search for user locations based on friend list, time, categories 
+### User Stories
+* Chris just moved to D.C and wants to find a great place to watch the sunset near his new apartment when his girlfriend visits. He can search Roam for locations with scenic views close to his apartment. 
+* Kyle is bored on a Friday night. He wants to find something to do. He can search Roam for places where lots of people have checked in and submitted photos in the last hour to help him decide what to do. 
+* Graham loves hummus. He wants to find a restaurant close to his house that serves excellent hummus. He can search Roam for user locations that mention hummus in the comments to satisfy his hummus craving. 
+* Darien wants to find a place to spend a Saturday on the James River with his family. He can can use Roam to find a good location to relax on the river. 
+* Sarah loves sunning on a particular rock on the James River. She wants her friend to meet her at the rock so they can sun together. She can use Roam to share the location of the rock with her friend. 
+* Nathan is looking for good fly fishing spots. He can use Roam to find a good location to go fishing and see photos  of fish caught at those locations. 
+### Mockup
+https://app.moqups.com/cgzoghby@gmail.com/o4SwnFrPk1/view
+
+_This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+
+
+## Trello Board Link
+
+https://trello.com/b/vLny77rW
 
 ## Table of Contents
 

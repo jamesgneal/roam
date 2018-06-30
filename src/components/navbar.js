@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../logo.svg';
-import '../App.css';
 import axios from 'axios'
 
 class Navbar extends Component {
@@ -58,7 +56,6 @@ class Navbar extends Component {
                     </div>
                     <div className="col-4 col-mr-auto">
                         <div id="top-filler"></div>
-                        <img src={logo} className="App-logo" alt="logo" />
                         <h1 className="App-title">Let's Roam!</h1>
                     </div>
                 </header>

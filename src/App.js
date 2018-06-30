@@ -7,6 +7,17 @@ import LoginForm from './components/login-form'
 import Navbar from './components/navbar'
 
 class App extends Component {
+  
+
+//   componentDidMount() {
+//     const leafletMap = this.leafletMap.leafletElement;
+//     leafletMap.on('zoomend', () => {
+//         console.log("Current Zoom level -> ", leafletMap.getZoom());
+//     });
+// }
+
+
+
   constructor() {
     super()
     this.state = {
@@ -47,11 +58,9 @@ class App extends Component {
       }
     })
   }
-
   render() {
     return (
       <div className="App">
-
         <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
