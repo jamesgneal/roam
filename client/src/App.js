@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { Route } from 'react-router-dom'
 // components
-import Signup from './components/sign-up'
-import LoginForm from './components/login-form'
-import Navbar from './components/navbar'
+import Signup from './components/SignUp'
+import LoginForm from './components/LoginForm'
+import Navbar from './components/Navbar'
+import RoamMap from './components/Map'
+import Footer from './components/Footer'
 
 class App extends Component {
   
@@ -75,6 +77,11 @@ class App extends Component {
             />}
         />
         <Route
+          exact path="/home"
+          render={() =>
+            <RoamMap/>}
+        />
+        <Route
           exact path="/login"
           render={() =>
             <LoginForm
@@ -86,7 +93,7 @@ class App extends Component {
           render={() =>
             <Signup />}
         />
-
+            <Footer />
       </div>
     );
   }
