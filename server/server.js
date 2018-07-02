@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 8080
 // Route requires
 const user = require('./routes/api/user')
 const yelpLocation = require('./routes/api/locations')
+const routes = require('./routes')
 
 // MIDDLEWARE
 app.use(morgan('dev'))
@@ -34,10 +35,8 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session()) // calls the deserializeUser
 
-
 // Routes
-app.use('/user', user)
-app.use('/locations', yelpLocation)
+app.use(routes)
 
 // Starting Server 
 app.listen(PORT, () => {

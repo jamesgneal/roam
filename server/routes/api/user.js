@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const User = require("../../database/models/user");
 const passport = require("../../passport");
 
+//want to match with /api/user
 router.post("/", (req, res) => {
   console.log("user signup");
 
@@ -28,6 +28,7 @@ router.post("/", (req, res) => {
   });
 });
 
+//similarly, this should be api/user/login
 router.post(
   "/login",
   function(req, res, next) {
@@ -55,6 +56,7 @@ router.get("/", (req, res, next) => {
   }
 });
 
+//ditto: api/user/logout
 router.post("/logout", (req, res) => {
   if (req.user) {
     req.logout();
