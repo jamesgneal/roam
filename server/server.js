@@ -37,6 +37,7 @@ app.use(passport.session()) // calls the deserializeUser
 
 // Routes
 app.use('/user', user)
+app.use('/locations', yelpLocation)
 
 // Starting Server 
 app.listen(PORT, () => {

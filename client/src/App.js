@@ -5,18 +5,18 @@ import { Route } from 'react-router-dom'
 import Signup from './components/SignUp'
 import LoginForm from './components/LoginForm'
 import Navbar from './components/Navbar'
-import RoamMap from './components/Map'
 import Footer from './components/Footer'
+import Location from './pages/Locations'
 
 class App extends Component {
-  
 
-//   componentDidMount() {
-//     const leafletMap = this.leafletMap.leafletElement;
-//     leafletMap.on('zoomend', () => {
-//         console.log("Current Zoom level -> ", leafletMap.getZoom());
-//     });
-// }
+
+  //   componentDidMount() {
+  //     const leafletMap = this.leafletMap.leafletElement;
+  //     leafletMap.on('zoomend', () => {
+  //         console.log("Current Zoom level -> ", leafletMap.getZoom());
+  //     });
+  // }
 
 
 
@@ -79,7 +79,8 @@ class App extends Component {
         <Route
           exact path="/home"
           render={() =>
-            <RoamMap/>}
+            <Location />
+          }
         />
         <Route
           exact path="/login"
@@ -93,7 +94,7 @@ class App extends Component {
           render={() =>
             <Signup />}
         />
-            <Footer />
+        <Footer />
       </div>
     );
   }
