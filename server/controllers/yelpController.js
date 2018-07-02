@@ -1,4 +1,4 @@
-const db = require("../database");
+const db = require("../database/models");
 const yelp = require("yelp-fusion");
 const apiKey =
   "diAbxadZ_x4ddstAPTyf-nHrw5kOhKM9Mh16l6cBS8TUqUJUX_Y3AE6ah4-_es8ZSQzTlyXc6X2TFT02kMYiuxTsHOiG9zuegMujxxhC4PPQTlUO1lQ--d-odHA3W3Yx";
