@@ -4,20 +4,17 @@ import { Route } from 'react-router-dom'
 // components
 import Signup from './components/SignUp'
 import LoginForm from './components/LoginForm'
-import Navbar from './components/Navbar'
+// import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Location from './pages/Locations'
 
 class App extends Component {
 
-
-  //   componentDidMount() {
-  //     const leafletMap = this.leafletMap.leafletElement;
-  //     leafletMap.on('zoomend', () => {
-  //         console.log("Current Zoom level -> ", leafletMap.getZoom());
-  //     });
-  // }
-
+//  greet user if logged in: 
+// {this.state.loggedIn &&
+//  <p>Join the party, {this.state.username}!</p>
+//}
+//Routes to different components
 
 
   constructor() {
@@ -63,12 +60,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
-        {/* greet user if logged in: */}
-        {this.state.loggedIn &&
-          <p>Join the party, {this.state.username}!</p>
-        }
-        {/* Routes to different components */}
         <Route
           exact path="/"
           render={() =>
@@ -94,7 +85,7 @@ class App extends Component {
           render={() =>
             <Signup />}
         />
-        <Footer />
+        <Footer updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
       </div>
     );
   }
