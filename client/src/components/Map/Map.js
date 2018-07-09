@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { createRef, Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import './Map.css';
 
@@ -27,11 +27,11 @@ class RoamMap extends Component {
         }
     }
 
-    //mapRef = createRef()
+    mapRef = createRef()
 
-    /* componentDidMount() {
+    componentDidMount() {
         this.mapRef.current.leafletElement.locate()
-    } */
+    }
 
     /* addMarker = (e) => {
         const markers = this.state.markerLocations
@@ -87,13 +87,13 @@ class RoamMap extends Component {
     }
 
     render() {
-        /* const findYouMarker = this.state.hasLocation ? (
+        const findYouMarker = this.state.hasLocation ? (
             <Marker position={this.state.latlng}>
                 <Popup>
                     <span>You are here</span>
                 </Popup>
             </Marker>
-        ) : null */
+        ) : null
         return (
             <div>
                 <Map
@@ -108,6 +108,7 @@ class RoamMap extends Component {
                         attribution={CartoDB_PositronAttr}
                         url={CartoDB_Positron}
                     />
+                    {findYouMarker}
                     {/* {this.state.markerLocations.length ? ( */}
                     {this.state.markerLocations.map((location, index) => 
                         //console.log(location);
