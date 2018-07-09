@@ -71,11 +71,11 @@ class Locations extends Component {
     API.getLocations(this.state.category)
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
-        const cleanResponse = JSON.stringify(
+        /* const cleanResponse = JSON.stringify(
           response.data.jsonBody.businesses,
           null,
           4
-        );
+        ); */
         this.setState({ locations: response.data.jsonBody.businesses });
         //console.log(`\n\n${cleanResponse}\n\n`);
       })
@@ -124,8 +124,8 @@ class Locations extends Component {
               <div className="card-body">
                 {this.state.locations.length ? (
                   <List>
-                    {this.state.locations.map(location => (
-                      <ListItem key={location.id}>
+                    {this.state.locations.map((location, index) => (
+                      <ListItem key={`${location.id}-${index}`}>
                         <a href={location.url}>
                           <strong>{location.name}</strong>
                         </a>
@@ -168,8 +168,8 @@ class Locations extends Component {
               <div className="card-body">
                 {this.state.savedLocations.length ? (
                   <List>
-                    {this.state.savedLocations.map(location => (
-                      <ListItem key={location.id}>
+                    {this.state.savedLocations.map((location, index) => (
+                      <ListItem key={`${location.id}-${index}`}>
                         <a href={location.url}>
                           <strong>{location.name}</strong>
                         </a>

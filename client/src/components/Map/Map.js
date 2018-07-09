@@ -1,5 +1,5 @@
-import React, { createRef, Component } from 'react';
-import { Map, TileLayer, LayerGroup, Marker, Popup } from 'react-leaflet';
+import React, { Component } from 'react';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import './Map.css';
 
 
@@ -14,7 +14,12 @@ class RoamMap extends Component {
         this.state = {
             hasLocation: false,
             locations: [],
-            markerLocations: [],
+            //Layout of markerlocations is super critical. Coordinates NEED to be saved
+            //in a format of {latlng: {lat: ####, lng: ####}}
+            markerLocations: [{latlng: {
+                lat: 37.5407,
+                lng: -77.4360,
+            }}],
             latlng: {
                 lat: 37.5407,
                 lng: -77.4360,
@@ -22,17 +27,25 @@ class RoamMap extends Component {
         }
     }
 
-    mapRef = createRef()
+    //mapRef = createRef()
 
-    componentDidMount() {
+    /* componentDidMount() {
         this.mapRef.current.leafletElement.locate()
-    }
+    } */
+
+    /* addMarker = (e) => {
+        const markers = this.state.markerLocations
+        markers.push(e.latlng)
+        this.setState({ markerLocations: markers })
+    } */
 
     componentDidUpdate(prevProps) {
         if (this.props.locations !== prevProps.locations) {
             console.log("props updated!\n", this.props.locations)
             //want to set value of prettyLocationsArray 
             let prettyLocationsArray = [];
+            //This mapping function needs to match the layout of markerLocations in state, 
+            //or else shit breaks. Like instantly.
             this.props.locations.map(location => {
                 let tempLocation = {
                     latlng: {
@@ -42,9 +55,11 @@ class RoamMap extends Component {
                 };
                 tempLocation.latlng.lat = location.coordinates.latitude
                 tempLocation.latlng.lng = location.coordinates.longitude
+                //So this part f**king works. State loads the markers successfully, as latlng coordinates.
                 prettyLocationsArray.push(tempLocation);
             })
             console.log("Pretty Locations", prettyLocationsArray)
+            //again, state is set successfully, from this point
             this.setState({ markerLocations: prettyLocationsArray })
         }
     }
@@ -60,9 +75,9 @@ class RoamMap extends Component {
             })
         } */
 
-    handleClick = () => {
+    //handleClick = () => {
         //want an array of locations to drop pins
-    }
+    //}
 
     handleLocationFound = e => {
         this.setState({
@@ -70,14 +85,15 @@ class RoamMap extends Component {
             latlng: e.latlng,
         })
     }
+
     render() {
-        const findYouMarker = this.state.hasLocation ? (
+        /* const findYouMarker = this.state.hasLocation ? (
             <Marker position={this.state.latlng}>
                 <Popup>
                     <span>You are here</span>
                 </Popup>
             </Marker>
-        ) : null
+        ) : null */
         return (
             <div>
                 <Map
@@ -92,17 +108,17 @@ class RoamMap extends Component {
                         attribution={CartoDB_PositronAttr}
                         url={CartoDB_Positron}
                     />
-                    {findYouMarker}
-                    {this.state.markerLocations.length ? (
-                        this.state.markerLocations.map(location => {
-                            //console.log(location);
-                            <Marker position={location.latlng}>
-                                <Popup>
-                                    <span>{location.latlng}</span>
-                                </Popup>
-                            </Marker>
-                        })
-                    ) : null}
+                    {/* {this.state.markerLocations.length ? ( */}
+                    {this.state.markerLocations.map((location, index) => 
+                        //console.log(location);
+                        <Marker key={`marker-${index}`} position={location.latlng}>
+                            <Popup>
+                                <span>{location.latlng}</span>
+                            </Popup>
+                        </Marker>
+                    )}
+                    {/* ) : null} */}
+                    {/* findYouMarker */}
                 </Map>
             </div>
         );
