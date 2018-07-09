@@ -51,7 +51,8 @@ class RoamMap extends Component {
                     latlng: {
                         lat: 0,
                         lng: 0
-                    }
+                    },
+                    name: location.name
                 };
                 tempLocation.latlng.lat = location.coordinates.latitude
                 tempLocation.latlng.lng = location.coordinates.longitude
@@ -114,7 +115,7 @@ class RoamMap extends Component {
                         //console.log(location);
                         <Marker key={`marker-${index}`} position={location.latlng}>
                             <Popup>
-                                <span>{location.latlng}</span>
+                                <span>{location.name}</span>
                             </Popup>
                         </Marker>
                     )}
