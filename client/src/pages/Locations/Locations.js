@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import SaveBtn from "../../components/SaveBtn";
 import DeleteBtn from "../../components/DeleteBtn";
-import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
@@ -73,13 +71,13 @@ class Locations extends Component {
     API.getLocations(this.state.category)
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
-        const cleanResponse = JSON.stringify(
+        /* const cleanResponse = JSON.stringify(
           response.data.jsonBody.businesses,
           null,
           4
-        );
+        ); */
         this.setState({ locations: response.data.jsonBody.businesses });
-        console.log(`\n\n${cleanResponse}\n\n`);
+        //console.log(`\n\n${cleanResponse}\n\n`);
       })
       .catch(e => {
         console.log(e);
@@ -87,27 +85,34 @@ class Locations extends Component {
   };
 
   render() {
+
     return (
       <Container fluid>
         <Row>
           <Col size="md-12">
             <div id="map-block">
-              <RoamMap />
+              <RoamMap locations={this.state.locations} savedLocations={this.state.savedLocations}/>
             </div>
-            <form>
-              <Input
-                value={this.state.subject}
-                onChange={this.handleInputChange}
-                name="category"
-                placeholder="Location Category"
-              />
-              <FormBtn
-                disabled={!this.state.category}
-                onClick={this.handleFormSubmit}
-              >
-                Search
+          </Col>
+        </Row>
+        <Row>
+          <Col size="md-12">
+            <div id="formInput">
+              <form>
+                <Input
+                  value={this.state.subject}
+                  onChange={this.handleInputChange}
+                  name="category"
+                  placeholder="Location Category"
+                />
+                <FormBtn
+                  disabled={!this.state.category}
+                  onClick={this.handleFormSubmit}
+                >
+                  Search
               </FormBtn>
-            </form>
+              </form>
+            </div>
           </Col>
         </Row>
         <Row>
@@ -119,8 +124,8 @@ class Locations extends Component {
               <div className="card-body">
                 {this.state.locations.length ? (
                   <List>
-                    {this.state.locations.map(location => (
-                      <ListItem key={location.id}>
+                    {this.state.locations.map((location, index) => (
+                      <ListItem key={`${location.id}-${index}`}>
                         <a href={location.url}>
                           <strong>{location.name}</strong>
                         </a>
@@ -148,8 +153,8 @@ class Locations extends Component {
                     ))}
                   </List>
                 ) : (
-                  <h5 className="text-center">No Results to Display</h5>
-                )}
+                    <h5 className="text-center">No Results to Display</h5>
+                  )}
               </div>
             </div>
           </Col>
@@ -163,8 +168,8 @@ class Locations extends Component {
               <div className="card-body">
                 {this.state.savedLocations.length ? (
                   <List>
-                    {this.state.savedLocations.map(location => (
-                      <ListItem key={location.id}>
+                    {this.state.savedLocations.map((location, index) => (
+                      <ListItem key={`${location.id}-${index}`}>
                         <a href={location.url}>
                           <strong>{location.name}</strong>
                         </a>
@@ -175,8 +180,8 @@ class Locations extends Component {
                     ))}
                   </List>
                 ) : (
-                  <h5 className="text-center">No Saved Locations</h5>
-                )}
+                    <h5 className="text-center">No Saved Locations</h5>
+                  )}
               </div>
             </div>
           </Col>

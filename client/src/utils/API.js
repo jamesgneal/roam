@@ -4,7 +4,7 @@ export default {
 
   // Gets all locations
   getLocations: (searchTerm) => {
-      console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
+      //console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
       //change for yelp
    return axios.get("/api/locations/yelp", searchTerm);
     
@@ -15,7 +15,7 @@ export default {
     return axios.get("/api/locations/");
   },
   // Deletes the Location with the given id
-  deleteLocation: function(id) {
+  deleteLocations: function(id) {
     return axios.delete("/api/locations/" + id);
   },
   // Saves an Location to the database

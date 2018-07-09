@@ -1,3 +1,4 @@
 module.exports = {
-  Location: require("./location")
+  Location: require("./location"),
+  User: require("./user")
 };
