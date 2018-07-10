@@ -16,9 +16,13 @@ export default {
     
   //  return axios.get(queryURL+apiKey+formQ+searchTerm.subject+startSyntax+searchTerm.start+endSyntax+searchTerm.end);
   },
-  // Gets the Location with the given id
-  getSaved: function() {
-    return axios.get("/api/locations/");
+  // Gets all Locations with the given username
+  getSaved: (username) => {
+    console.log(`User signed in as \n${username}`)
+    const searchUser = {
+      user: username
+    }
+    return axios.post("/api/locations/user", searchUser);
   },
   // Deletes the Location with the given id
   deleteLocations: function(id) {
