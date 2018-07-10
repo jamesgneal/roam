@@ -63,9 +63,7 @@ class App extends Component {
         <Route
           exact path="/"
           render={() =>
-            <LoginForm
-              updateUser={this.updateUser}
-            />}
+            <Signup />}
         />
         <Route
           exact path="/home"
