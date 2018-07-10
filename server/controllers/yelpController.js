@@ -6,19 +6,22 @@ const apiKey =
 // Defining methods for the locationController
 module.exports = {
   findNew: function(req, res) {
-    const searchRequest = {
-      term: req.body,
-      limit: 10,
-      location: "Richmond, Virginia"
-    };
+    // console.log(`'nThis is the req that hits the server:\n${prettyReq}`);
+    // const searchRequest = {
+    //   term: req.body,
+    //   limit: 10,
+    //   location: "Richmond, Virginia"
+    // };
+    const prettySearch = JSON.stringify(req.body, null, 4);
+    console.log(`\nThis is the searchRequest prepared by the client and passed to the server:\n${prettySearch}`);
 
     const yelpClient = yelp.client(apiKey);
 
     yelpClient
-      .search(searchRequest)
+      .search(req.body)
       .then(response => {
-        const prettyJson = JSON.stringify(response.jsonBody.businesses, null, 4);
-        console.log(prettyJson);
+        //const prettyJson = JSON.stringify(response.jsonBody.businesses, null, 4);
+        //console.log(prettyJson);
         res.json(response);
       })
       .catch(e => {

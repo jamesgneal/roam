@@ -28,10 +28,18 @@
   "scripts": {
     "start": "cd client && react-scripts start",
     "build": "cd client && react-scripts build",
+<<<<<<< Updated upstream
     "test": "cd client && react-scripts test --env=jsdom",
     "eject": "cd client && react-scripts eject",
     "api": "nodemon server.js",
     "dev": "concurrently \"cd client && react-scripts start\" \"nodemon server.js\""
+=======
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "api": "nodemon ./server/server.js",
+    "dev": "concurrently \"cd client && react-scripts start\" \"nodemon server.js\"",
+    "dev2": "nodemon server/server.js && concurrently \"cd client && react-scripts start\""
+>>>>>>> Stashed changes
   },
   "devDependencies": {
     "concurrently": "^3.5.1",

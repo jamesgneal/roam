@@ -6,7 +6,13 @@ export default {
   getLocations: (searchTerm) => {
       //console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
       //change for yelp
-   return axios.get("/api/locations/yelp", searchTerm);
+      console.log(searchTerm);
+      const searchRequest = {
+        term: searchTerm,
+        limit: 10,
+        location: "Richmond, Virginia"
+      };
+   return axios.post("/api/locations/yelp", searchRequest);
     
   //  return axios.get(queryURL+apiKey+formQ+searchTerm.subject+startSyntax+searchTerm.start+endSyntax+searchTerm.end);
   },

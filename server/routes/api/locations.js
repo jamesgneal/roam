@@ -10,7 +10,7 @@ router
 // Matches with "/api/locations/yelp"
 router
   .route("/yelp")
-  .get(locationController.findNew)
+  .post(locationController.findNew)
 
 // Matches with "/api/locations/:id"
 router
