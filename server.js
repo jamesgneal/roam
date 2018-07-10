@@ -38,12 +38,11 @@ app.use(passport.session()) // calls the deserializeUser
 // Routes
 app.use(routes)
 
-app.use(express.static(__dirname + '/build'));
+app.use(express.static('./client/build'));
 
 app.get('*', function (req, res) {
-  const index = path.join(__dirname, '/build/index.html');
-  res.sendFile(index);
-});
+	res.sendFile("index.html");
+  });
 
 // Starting Server 
 app.listen(PORT, () => {
