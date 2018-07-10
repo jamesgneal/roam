@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const session = require('express-session')
@@ -11,6 +12,9 @@ const PORT = process.env.PORT || 8080
 const user = require('./server/routes/api/user')
 const yelpLocation = require('./server/routes/api/locations')
 const routes = require('./server/routes')
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // MIDDLEWARE
 app.use(morgan('dev'))
@@ -38,12 +42,11 @@ app.use(passport.session()) // calls the deserializeUser
 // Routes
 app.use(routes)
 
-app.use(express.static(__dirname + '/build'));
-
-app.get('*', function (req, res) {
-  const index = path.join(__dirname, '/build/index.html');
-  res.sendFile(index);
-});
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+/* app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  }); */
 
 // Starting Server 
 app.listen(PORT, () => {
