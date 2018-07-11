@@ -59,7 +59,7 @@ state = {
 
   saveLocation = locationData => {
     API.saveLocation(locationData)
-      .then(res => this.loadSaved())
+      .then(res => this.loadSaved(this.props.loggedInAs))
       .catch(err => console.log(err));
   };
 
