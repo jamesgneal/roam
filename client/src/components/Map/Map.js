@@ -1,6 +1,6 @@
 import React, { createRef, Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
-import './map.css';
+import './Map.css';
 
 const CartoDB_Positron = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png';
 const CartoDB_PositronAttr = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
