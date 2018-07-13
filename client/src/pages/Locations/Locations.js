@@ -85,7 +85,7 @@ class Locations extends Component {
   };
 
   render() {
-
+    const user = props.getUser();
     return (
       <Container fluid>
         <Row>

@@ -68,7 +68,7 @@ class App extends Component {
         <Route
           exact path="/home"
           render={() =>
-            <Location />
+            <Location getUser={this.getUser}/>
           }
         />
         <Route
