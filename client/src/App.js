@@ -68,7 +68,9 @@ class App extends Component {
         <Route
           exact path="/home"
           render={() =>
-            <Location getUser={this.getUser}/>
+            <Location 
+              loggedInAs={this.state.username}
+            />
           }
         />
         <Route
