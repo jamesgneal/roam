@@ -10,7 +10,7 @@ import "./Locations.css";
 
 class Locations extends Component {
 state = {
-      user: this.props.loggedInAs,
+      user: "",
       locations: [],
       category: "",
       savedLocations: [],
@@ -21,17 +21,25 @@ state = {
   }
 
 
-  componentDidMount() {
-    console.log(`props for loggedInAs: ${this.props.loggedInAs}`);
-    this.loadSaved(this.props.loggedInAs);
+  componentDidUpdate() {
+    //console.log(`props for loggedInAs: ${this.props.loggedInAs}`);
+    // this.props.getUser();
+    // this.setState({
+    //   user: this.props.loggedInAs
+    // });
+    this.loadSaved();
+    
   }
 
-  loadSaved = username => {
+  loadSaved = () => {
     console.log;
-    API.getSaved(username).then(res => {
-      this.setState({
-        savedLocations: res.data
-      });
+    API.getSaved(this.props.loggedInAs).then(res => {
+      if (res.data.length !== this.state.savedLocations.length) {
+        this.setState({
+          savedLocations: res.data
+        });
+      }
+      
       console.log(
         `\n****** This is the saved Locations data from mongo ******\n\n`
       );

@@ -70,6 +70,7 @@ class App extends Component {
           render={() =>
             <Location 
               loggedInAs={this.state.username}
+              getUser={this.getUser}
             />
           }
         />
