@@ -7,6 +7,12 @@ router
   .get(locationController.findAll)
   .post(locationController.create);
 
+ // Matches with "/api/locations/user"
+router
+.route("/user")
+//.get(locationController.findAll)
+.post(locationController.findByUsername);
+
 // Matches with "/api/locations/yelp"
 router
   .route("/yelp")
@@ -15,7 +21,7 @@ router
 // Matches with "/api/locations/:id"
 router
   .route("/:id")
-  .get(locationController.findById)
+  .get(locationController.findByUsername)
   .put(locationController.update)
   .delete(locationController.remove);
 

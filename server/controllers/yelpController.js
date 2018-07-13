@@ -34,8 +34,10 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  findById: function(req, res) {
-    db.Location.findById(req.params.id)
+  findByUsername: function(req, res) {
+    const prettyJson = JSON.stringify(req.body, null, 4);
+    console.log(prettyJson);
+    db.Location.find(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

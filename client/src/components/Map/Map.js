@@ -16,14 +16,11 @@ class RoamMap extends Component {
             locations: [],
             //Layout of markerlocations is super critical. Coordinates NEED to be saved
             //in a format of {latlng: {lat: ####, lng: ####}}
-            markerLocations: [{latlng: {
-                lat: 37.5407,
-                lng: -77.4360,
-            }}],
+            markerLocations: [],
             latlng: {
                 lat: 37.5407,
                 lng: -77.4360,
-            },
+            }
         }
     }
 

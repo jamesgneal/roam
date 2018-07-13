@@ -9,25 +9,37 @@ import RoamMap from "../../components/Map/Map";
 import "./Locations.css";
 
 class Locations extends Component {
-  state = {
-    locations: [],
-    category: "",
-    savedLocations: [],
-    currentLocation: {
-      lat: "",
-      long: ""
+state = {
+      user: "",
+      locations: [],
+      category: "",
+      savedLocations: [],
+      currentLocation: {
+        lat: "",
+        long: ""
     }
-  };
+  }
 
-  componentDidMount() {
+
+  componentDidUpdate() {
+    //console.log(`props for loggedInAs: ${this.props.loggedInAs}`);
+    // this.props.getUser();
+    // this.setState({
+    //   user: this.props.loggedInAs
+    // });
     this.loadSaved();
+    
   }
 
   loadSaved = () => {
-    API.getSaved().then(res => {
-      this.setState({
-        savedLocations: res.data
-      });
+    console.log;
+    API.getSaved(this.props.loggedInAs).then(res => {
+      if (res.data.length !== this.state.savedLocations.length) {
+        this.setState({
+          savedLocations: res.data
+        });
+      }
+      
       console.log(
         `\n****** This is the saved Locations data from mongo ******\n\n`
       );
@@ -55,7 +67,7 @@ class Locations extends Component {
 
   saveLocation = locationData => {
     API.saveLocation(locationData)
-      .then(res => this.loadSaved())
+      .then(res => this.loadSaved(this.props.loggedInAs))
       .catch(err => console.log(err));
   };
 
@@ -85,32 +97,34 @@ class Locations extends Component {
   };
 
   render() {
-
     return (
       <Container fluid>
         <Row>
           <Col size="md-12">
             <div id="map-block">
-              <RoamMap locations={this.state.locations} savedLocations={this.state.savedLocations}/>
+              <RoamMap
+                locations={this.state.locations}
+                savedLocations={this.state.savedLocations}
+              />
             </div>
           </Col>
         </Row>
         <Row>
           <Col size="md-12">
             <div id="formInput">
-              <form>
+              <form onSubmit={this.handleFormSubmit}>
                 <Input
                   value={this.state.subject}
                   onChange={this.handleInputChange}
                   name="category"
                   placeholder="Location Category"
                 />
-                <FormBtn
+                {/* <FormBtn
                   disabled={!this.state.category}
                   onClick={this.handleFormSubmit}
                 >
                   Search
-              </FormBtn>
+                </FormBtn> */}
               </form>
             </div>
           </Col>
@@ -137,7 +151,8 @@ class Locations extends Component {
                                 lat: location.coordinates.latitude,
                                 long: location.coordinates.longitude
                               },
-                              url: location.url
+                              url: location.url,
+                              user: this.props.loggedInAs
                             });
                             console.log({
                               name: location.name,
@@ -153,8 +168,8 @@ class Locations extends Component {
                     ))}
                   </List>
                 ) : (
-                    <h5 className="text-center">No Results to Display</h5>
-                  )}
+                  <h5 className="text-center">No Results to Display</h5>
+                )}
               </div>
             </div>
           </Col>
@@ -169,19 +184,19 @@ class Locations extends Component {
                 {this.state.savedLocations.length ? (
                   <List>
                     {this.state.savedLocations.map((location, index) => (
-                      <ListItem key={`${location.id}-${index}`}>
+                      <ListItem key={`${location._id}-${index}`}>
                         <a href={location.url}>
                           <strong>{location.name}</strong>
                         </a>
                         <DeleteBtn
-                          onClick={() => this.deleteLocation(location.id)}
+                          onClick={() => this.deleteLocation(location._id)}
                         />
                       </ListItem>
                     ))}
                   </List>
                 ) : (
-                    <h5 className="text-center">No Saved Locations</h5>
-                  )}
+                  <h5 className="text-center">No Saved Locations</h5>
+                )}
               </div>
             </div>
           </Col>
