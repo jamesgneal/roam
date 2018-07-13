@@ -1,23 +1,29 @@
-import React, { createRef, Component } from 'react';
-import axios from 'axios'
-import { Route } from 'react-router-dom'
-import NavbarFeatures from './components/Navbar/navbar';
-import API from './utils/API'
-import Signup from './components/SignUp'
-import LoginForm from './components/LoginForm'
-import RoamMap from './components/Map'
-import './App.css';
+import React, { createRef, Component } from "react";
+import axios from "axios";
+import { Route } from "react-router-dom";
+import NavbarFeatures from "./components/Navbar/navbar";
+import API from "./utils/API";
+import Signup from "./components/SignUp";
+import LoginForm from "./components/LoginForm";
+import RoamMap from "./components/Map";
+import Toolbar from "./components/Toolbar/toolbar";
+import SearchBar from "./components/Form/SearchBar";
+import "./App.css";
 
 class App extends Component {
   constructor() {
-    super()
-    this.state = {
+    super();
+    (this.state = {
+      userLocations: [],
+      yelpLocations: [],
+      roamLocations: [],
       loggedIn: false,
       username: null,
-      },
-    this.getUser = this.getUser.bind(this)
-    this.componentDidMount = this.componentDidMount.bind(this)
-    this.updateUser = this.updateUser.bind(this)
+      newCity: ""
+    }),
+      (this.getUser = this.getUser.bind(this));
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.updateUser = this.updateUser.bind(this);
   }
 
   componentDidMount() {
@@ -26,41 +32,41 @@ class App extends Component {
   }
 
   updateUser(userObject) {
-    this.setState(userObject)
+    this.setState(userObject);
   }
 
   getUser() {
-    axios.get('/api/user/').then(response => {
-      console.log('Get user response: ')
-      console.log(response.data)
+    axios.get("/api/user/").then(response => {
+      console.log("Get user response: ");
+      console.log(response.data);
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
+        console.log("Get User: There is a user saved in the server session: ");
 
         this.setState({
           loggedIn: true,
           username: response.data.user.username
-        })
+        });
       } else {
-        console.log('Get user: no user');
+        console.log("Get user: no user");
         this.setState({
           loggedIn: false,
           username: null
-        })
+        });
       }
-    })
+    });
   }
 
-  loadSaved = () => {
-    API.getSaved().then(res => {
+  loadSaved = username => {
+    API.getSaved(username).then(res => {
       this.setState({
-        savedLocations: res.data
+        userLocations: res.data
       });
-      console.log(
-        `\n****** This is the saved Locations data from mongo ******\n\n`
-      );
-      this.state.savedLocations.forEach(element => {
-        console.log(element);
-      });
+      // console.log(
+      //   `\n****** This is the saved Locations data from mongo ******\n\n`
+      // );
+      // this.state.userLocations.forEach(element => {
+      //   console.log(element);
+      // });
     });
   };
 
@@ -114,26 +120,35 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Route exact path="/" render={() => <Signup />} />
         <Route
-          exact path="/"
-          render={() =>
-            <Signup />}
+          exact
+          path="/login"
+          render={() => <LoginForm updateUser={this.updateUser} />}
         />
         <Route
-          exact path="/login"
-          render={() =>
-            <LoginForm
-              updateUser={this.updateUser}
-            />}
-        />
-        <Route
-          exact path="/home"
-          render={() =>
+          exact
+          path="/home"
+          render={() => (
             <div>
-            <RoamMap />
-            <NavbarFeatures />
+              <form onSubmit={this.handleFormSubmit}>
+                <SearchBar 
+                  name="newCity"
+                  placeholder="Change City"
+                  value={this.state.newCity}
+                  onChange={this.handleInputChange}
+                />
+              </form>
+              <Toolbar />
+              <RoamMap 
+                userLocations={this.state.userLocations}
+                yelpLocations={this.state.yelpLocations}
+                roamLocations={this.state.yelpLocations}
+                newCity={this.state.newCity}
+              />
+              <NavbarFeatures />
             </div>
-          }
+          )}
         />
       </div>
     );
