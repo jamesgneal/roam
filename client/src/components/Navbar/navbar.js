@@ -1,69 +1,57 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import React from 'react';
+import { Navbar, Button, ButtonGroup, NavbarNav, NavItem, NavLink, Fa } from 'mdbreact';
+import { BrowserRouter as Router } from 'react-router-dom';
+import ToolbarFeatures from '../Toolbar/toolbar';
+import './navbar.css';
 
-class Navbar extends Component {
-    constructor() {
-        super()
-        this.logout = this.logout.bind(this)
-    }
 
-    logout(event) {
-        event.preventDefault()
-        console.log('logging out')
-        axios.post('/user/logout').then(response => {
-            console.log(response.data)
-            if (response.status === 200) {
-                this.props.updateUser({
-                    loggedIn: false,
-                    username: null
-                })
-            }
-        }).catch(error => {
-            console.log('Logout error')
-        })
-    }
+class NavbarFeatures extends React.Component {
 
     render() {
-        const loggedIn = this.props.loggedIn;
-        console.log('navbar render, props: ')
-        console.log(this.props);
-
         return (
+
             <div>
-
-                <header className="navbar App-header" id="nav-container">
-                    <div className="col-4" >
-                        {loggedIn ? (
-                            <section className="navbar-section">
-                                <Link to="#" className="btn btn-link text-secondary" onClick={this.logout}>
-                                    <span className="text-secondary">logout</span></Link>
-
-                            </section>
-                        ) : (
-                                <section className="navbar-section">
-                                    <Link to="/" className="btn btn-link text-secondary">
-                                        <span className="text-secondary">home</span>
-                                    </Link>
-                                    <Link to="/login" className="btn btn-link text-secondary">
-                                        <span className="text-secondary">login</span>
-                                    </Link>
-                                    <Link to="/signup" className="btn btn-link">
-                                        <span className="text-secondary">sign up</span>
-                                    </Link>
-                                </section>
-                            )}
+                <div className="input-group md-form form-sm form-1 pl-0">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text black lighten-3" id="basic-text1"><i className="fa fa-search text-white" aria-hidden="true"></i></span>
                     </div>
-                    <div className="col-4 col-mr-auto">
-                        <div id="top-filler"></div>
-                        <h1 className="App-title">Let's Roam!</h1>
-                    </div>
-                </header>
+                    <input className="form-control my-0 py-1" type="text" placeholder="City,  State,  or Zip Code" aria-label="Search" />
+                </div>
+                <ToolbarFeatures />
+                <Router>
+                    <Navbar dark color="black" expand fixed="bottom">
+                        <NavbarNav center="true">
+                            <NavItem>
+                                <NavLink to="/home">
+                                    <Fa icon="map-marker" />
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/search">
+                                    <Fa icon="binoculars" />
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink to="/saved">
+                                    <Fa icon="list" />
+                                </NavLink>
+                            </NavItem>
+                        </NavbarNav>
+                    </Navbar>
+                </Router>
+                <div className="time-btn-group">
+                {/* late day time breakdown by components */}
+                    <ButtonGroup className="time">
+                        <Button className="time-btn" href="#">H</Button>
+                        <Button className="time-btn" href="#">D</Button>
+                        <Button className="time-btn" href="#">W</Button>
+                        <Button className="time-btn" href="#">M</Button>
+                        <Button className="time-btn" href="#">Y</Button>
+                    </ButtonGroup>
+                </div>
             </div>
-
         );
-
     }
 }
 
-export default Navbar
+export default NavbarFeatures;

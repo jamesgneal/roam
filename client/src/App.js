@@ -1,36 +1,28 @@
-import React, { Component } from 'react';
+import React, { createRef, Component } from 'react';
 import axios from 'axios'
 import { Route } from 'react-router-dom'
-// components
+import NavbarFeatures from './components/Navbar/navbar';
+import API from './utils/API'
 import Signup from './components/SignUp'
 import LoginForm from './components/LoginForm'
-// import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Location from './pages/Locations'
+import RoamMap from './components/Map'
+import './App.css';
 
 class App extends Component {
-
-//  greet user if logged in: 
-// {this.state.loggedIn &&
-//  <p>Join the party, {this.state.username}!</p>
-//}
-//Routes to different components
-
-
   constructor() {
     super()
     this.state = {
       loggedIn: false,
-      username: null
-    }
-
+      username: null,
+      },
     this.getUser = this.getUser.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
     this.updateUser = this.updateUser.bind(this)
   }
 
   componentDidMount() {
-    this.getUser()
+    this.getUser();
+    this.loadSaved();
   }
 
   updateUser(userObject) {
@@ -57,6 +49,68 @@ class App extends Component {
       }
     })
   }
+
+  loadSaved = () => {
+    API.getSaved().then(res => {
+      this.setState({
+        savedLocations: res.data
+      });
+      console.log(
+        `\n****** This is the saved Locations data from mongo ******\n\n`
+      );
+      this.state.savedLocations.forEach(element => {
+        console.log(element);
+      });
+    });
+  };
+
+  loadLocations = () => {
+    API.getLocations()
+      .then(res => {
+        this.setState({
+          locations: res
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  deleteLocation = id => {
+    API.deleteLocations(id)
+      .then(res => this.loadSaved())
+      .catch(err => console.log(err));
+  };
+
+  saveLocation = locationData => {
+    API.saveLocation(locationData)
+      .then(res => this.loadSaved())
+      .catch(err => console.log(err));
+  };
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    API.getLocations(this.state.category)
+      // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
+      .then(response => {
+        /* const cleanResponse = JSON.stringify(
+          response.data.jsonBody.businesses,
+          null,
+          4
+        ); */
+        this.setState({ locations: response.data.jsonBody.businesses });
+        //console.log(`\n\n${cleanResponse}\n\n`);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   render() {
     return (
       <div className="App">
@@ -66,12 +120,6 @@ class App extends Component {
             <Signup />}
         />
         <Route
-          exact path="/home"
-          render={() =>
-            <Location />
-          }
-        />
-        <Route
           exact path="/login"
           render={() =>
             <LoginForm
@@ -79,11 +127,14 @@ class App extends Component {
             />}
         />
         <Route
-          exact path="/signup"
+          exact path="/home"
           render={() =>
-            <Signup />}
+            <div>
+            <RoamMap />
+            <NavbarFeatures />
+            </div>
+          }
         />
-        <Footer updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
       </div>
     );
   }
