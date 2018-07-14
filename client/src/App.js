@@ -17,7 +17,7 @@ class App extends Component {
     (this.state = {
       latlng: {
         lat: 37.5407,
-        lng: -77.4360, 
+        lng: -77.436
       },
       userLocations: [],
       yelpLocations: [],
@@ -108,7 +108,10 @@ class App extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category, [this.state.latlng.lat, this.state.latlng.lng])
+    API.getLocations(this.state.category, [
+      this.state.latlng.lat,
+      this.state.latlng.lng
+    ])
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
         /* const cleanResponse = JSON.stringify(
@@ -126,7 +129,6 @@ class App extends Component {
   // COME BACK AND MAKE THIS AN ONLOAD FUNCTION THAT GETS ALL OF THE CATEGORIES AND SETS THEM TO STATE
   getCategories = event => {
     event.preventDefault();
-
   };
 
   handleCategoryButton = (cat, event) => {
@@ -146,17 +148,30 @@ class App extends Component {
     this.setState({
       latlng: loc
     });
-  }
-
+  };
 
   render() {
     return (
       <div className="App">
-        <Route exact path="/" render={() => <Signup />} />
         <Route
           exact
-          path="/login"
-          render={() => <LoginForm updateUser={this.updateUser} />}
+          path="/"
+          render={() => (
+            <LoginForm
+              updateUser={this.updateUser}
+              user={this.state.username}
+            />
+          )}
+        />
+        <Route exact path="/signup" render={() => <Signup />} />
+        <Route
+          exact
+          path="/logout"
+          render={() => (
+            <LoginForm
+              updateUser={this.updateUser}
+            />
+          )}
         />
         <Route
           exact
@@ -171,7 +186,7 @@ class App extends Component {
                   onChange={this.handleInputChange}
                 />
               </form>
-              <Toolbar catClick={this.handleCategoryButton}/>
+              <Toolbar catClick={this.handleCategoryButton} />
               <RoamMap
                 userLocations={this.state.userLocations}
                 yelpLocations={this.state.yelpLocations}
@@ -179,7 +194,7 @@ class App extends Component {
                 newCity={this.state.newCity}
                 passLoc={this.handleUserLocation}
               />
-              <PinBtn 
+              <PinBtn
                 userLoc={this.state.latlng}
                 user={this.state.username}
                 newPin={this.saveLocation}
