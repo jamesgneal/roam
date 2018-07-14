@@ -24,3 +24,4 @@ router
   .delete(locationController.remove);
 
 module.exports = router;
+  
