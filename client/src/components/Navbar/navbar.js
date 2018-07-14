@@ -36,6 +36,11 @@ class NavbarFeatures extends React.Component {
                                     <Fa icon="list" />
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink to="/logout">
+                                    <Fa icon="sign-out" />
+                                </NavLink>
+                            </NavItem>
                         </NavbarNav>
                     </Navbar>
                 </Router>
