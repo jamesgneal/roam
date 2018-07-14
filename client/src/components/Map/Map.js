@@ -18,7 +18,7 @@ class RoamMap extends Component {
             latlng: {
                 lat: 37.5407,
                 lng: -77.4360,
-            },
+            }
         }
     }
 
