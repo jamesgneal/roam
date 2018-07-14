@@ -1,7 +1,7 @@
 .leaflet-container {
   position: absolute; 
-  top: 19%;
-  bottom: 12%;
+  top: 15%;
+  bottom: 8%;
 
   /* height: 71%; */
     width: 100%;
@@ -10,5 +10,4 @@
   
 
   /* margin-bottom: 150px; */
-}
-
+} 

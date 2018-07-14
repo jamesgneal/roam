@@ -7,8 +7,11 @@ const locationSchema = new Schema({
     lat: String,
     long: String
   },
-  url: { type: String, required: true },
-  user: { type: String }
+  url: { type: String },
+  user: { type: String },
+  comments: { type: String },
+  category: { type: String }
+
 });
 
 const SavedLocation = mongoose.model("Location", locationSchema);

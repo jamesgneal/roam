@@ -3,14 +3,15 @@ import axios from "axios";
 export default {
 
   // Gets all locations
-  getLocations: (searchTerm) => {
+  getLocations: (searchTerm, searchLoc) => {
     //console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
     //change for yelp
     console.log(searchTerm);
     const searchRequest = {
       term: searchTerm,
-      limit: 10,
-      location: "Richmond, Virginia"
+      // limit: 10,
+      latitude: searchLoc[0],
+      longitude: searchLoc[1]
     };
  return axios.post("/api/locations/yelp", searchRequest);
   },

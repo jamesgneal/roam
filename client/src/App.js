@@ -8,12 +8,17 @@ import LoginForm from "./components/LoginForm";
 import RoamMap from "./components/Map";
 import Toolbar from "./components/Toolbar/toolbar";
 import SearchBar from "./components/Form/SearchBar";
+import PinBtn from "./components/PinBtn";
 import "./App.css";
 
 class App extends Component {
   constructor() {
     super();
     (this.state = {
+      latlng: {
+        lat: 37.5407,
+        lng: -77.4360, 
+      },
       userLocations: [],
       yelpLocations: [],
       roamLocations: [],
@@ -28,7 +33,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getUser();
-    this.loadSaved();
   }
 
   updateUser(userObject) {
@@ -37,15 +41,18 @@ class App extends Component {
 
   getUser() {
     axios.get("/api/user/").then(response => {
-      console.log("Get user response: ");
-      console.log(response.data);
       if (response.data.user) {
-        console.log("Get User: There is a user saved in the server session: ");
-
+        console.log(
+          `getUser found a user saved in the server session: ${
+            response.data.user
+          }`
+        );
         this.setState({
           loggedIn: true,
           username: response.data.user.username
         });
+        //Since a user was found and state was set, now load the user's saved data
+        this.loadSaved(this.state.username);
       } else {
         console.log("Get user: no user");
         this.setState({
@@ -101,7 +108,7 @@ class App extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category)
+    API.getLocations(this.state.category, [this.state.latlng.lat, this.state.latlng.lng])
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
         /* const cleanResponse = JSON.stringify(
@@ -116,6 +123,32 @@ class App extends Component {
         console.log(e);
       });
   };
+  // COME BACK AND MAKE THIS AN ONLOAD FUNCTION THAT GETS ALL OF THE CATEGORIES AND SETS THEM TO STATE
+  getCategories = event => {
+    event.preventDefault();
+
+  };
+
+  handleCategoryButton = (cat, event) => {
+    //event.preventDefault();
+    API.getLocations(cat, [this.state.latlng.lat, this.state.latlng.lng])
+      .then(response => {
+        this.setState({
+          yelpLocations: response.data.jsonBody.businesses
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  handleUserLocation = loc => {
+    this.setState({
+      latlng: loc
+    });
+  }
+
+
 
   render() {
     return (
@@ -132,19 +165,25 @@ class App extends Component {
           render={() => (
             <div>
               <form onSubmit={this.handleFormSubmit}>
-                <SearchBar 
+                <SearchBar
                   name="newCity"
                   placeholder="Change City"
                   value={this.state.newCity}
                   onChange={this.handleInputChange}
                 />
               </form>
-              <Toolbar />
-              <RoamMap 
+              <Toolbar catClick={this.handleCategoryButton}/>
+              <RoamMap
                 userLocations={this.state.userLocations}
                 yelpLocations={this.state.yelpLocations}
                 roamLocations={this.state.yelpLocations}
                 newCity={this.state.newCity}
+                passLoc={this.handleUserLocation}
+              />
+              <PinBtn 
+                userLoc={this.state.latlng}
+                user={this.state.username}
+                newPin={this.saveLocation}
               />
               <NavbarFeatures />
             </div>

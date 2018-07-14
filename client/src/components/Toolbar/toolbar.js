@@ -1,59 +1,39 @@
 import React from "react";
 import {
   Button,
-  Fa,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader
+  Fa
 } from "mdbreact";
 import "./toolbar.css";
 
-class ToolbarFeatures extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modal: false
-    };
-
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-
+class ToolbarFeatures extends React.Component { 
   render() {
     return (
       <div>
-        <div className="background modal-container"> Categories
+        <div className="background modal-container">
           <div className="toolbar">
-            <Button className="btn-circle">
+            <Button className="btn-circle" onClick={(e) => this.props.catClick("breweries", e)}>
               <Fa icon="beer" />
             </Button>
-            <Button className="btn-circle">
+            {/* <Button className="btn-circle">
               <Fa icon="shopping-bag" />
+            </Button> */}
+            <Button className="btn-circle" onClick={(e) => this.props.catClick("restaurants", e)}>
+              <Fa icon="utensils" id="food" />
             </Button>
-            <Button className="btn-circle">
-              <Fa icon="image" />
-            </Button>
-            <Button className="btn-circle">All</Button>
-            <Button className="btn-circle">
+            <Button className="btn-circle" onClick={(e) => this.props.catClick("local flavor", e)}>All</Button>
+            <Button className="btn-circle" onClick={(e) => this.props.catClick("concert venues", e)}>
               <Fa icon="headphones" />
             </Button>
-            <Button className="btn-circle">
+            <Button className="btn-circle" onClick={(e) => this.props.catClick("parks", e)}>
               <Fa icon="bicycle" />
             </Button>
-            <Button className="btn-circle">
+            {/* <Button className="btn-circle">
               <Fa icon="users" />
-            </Button>
+            </Button> */}
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="save-location-btn">
             <Button className="btn-large" onClick={this.toggle}>
               +
@@ -84,10 +64,6 @@ class ToolbarFeatures extends React.Component {
                   className="form-control form-control-lg"
                   label="Add Comments:"
                 />
-                {/* <Button className="btn-large-modal btn-large-left"><Fa icon="tag" size="2x" /></Button>{' '}
-                                <span className="add-photo"> Choose Category </span> */}
-                {/* <Button className="btn-large-modal btn-large-left"><Fa icon="pencil" size="2x" /></Button>{' '}
-                            <span className="add-photo"> Add Comments </span> */}
                 <br />
                 <Button className="btn-large-modal btn-large-left">
                   <Fa icon="camera-retro" size="2x" />
@@ -105,7 +81,7 @@ class ToolbarFeatures extends React.Component {
               </ModalFooter>
             </Modal>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

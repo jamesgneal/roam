@@ -39,8 +39,7 @@ class NavbarFeatures extends React.Component {
                         </NavbarNav>
                     </Navbar>
                 </Router>
-                <div className="time-btn-group">
-                {/* late day time breakdown by components */}
+                {/* <div className="time-btn-group">
                     <ButtonGroup className="time">
                         <Button className="time-btn" href="#">H</Button>
                         <Button className="time-btn" href="#">D</Button>
@@ -48,7 +47,7 @@ class NavbarFeatures extends React.Component {
                         <Button className="time-btn" href="#">M</Button>
                         <Button className="time-btn" href="#">Y</Button>
                     </ButtonGroup>
-                </div>
+                </div> */}
             </div>
         );
     }
