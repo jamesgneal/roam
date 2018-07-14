@@ -7,16 +7,14 @@ router
   .get(locationController.findAll)
   .post(locationController.create);
 
- // Matches with "/api/locations/user"
+// Matches with "/api/locations/user"
 router
-.route("/user")
-//.get(locationController.findAll)
-.post(locationController.findByUsername);
+  .route("/user")
+  //.get(locationController.findAll)
+  .post(locationController.findByUsername);
 
 // Matches with "/api/locations/yelp"
-router
-  .route("/yelp")
-  .post(locationController.findNew)
+router.route("/yelp").post(locationController.findNew);
 
 // Matches with "/api/locations/:id"
 router

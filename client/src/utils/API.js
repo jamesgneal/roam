@@ -3,22 +3,20 @@ import axios from "axios";
 export default {
 
   // Gets all locations
-  getLocations: (searchTerm) => {
-      //console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
-      //change for yelp
-      console.log(searchTerm);
-      const searchRequest = {
-        term: searchTerm,
-        limit: 10,
-        location: "Richmond, Virginia"
-      };
-   return axios.post("/api/locations/yelp", searchRequest);
-    
-  //  return axios.get(queryURL+apiKey+formQ+searchTerm.subject+startSyntax+searchTerm.start+endSyntax+searchTerm.end);
+  getLocations: (searchTerm, searchLoc) => {
+    //console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
+    //change for yelp
+    console.log(searchTerm);
+    const searchRequest = {
+      term: searchTerm,
+      // limit: 10,
+      latitude: searchLoc[0],
+      longitude: searchLoc[1]
+    };
+ return axios.post("/api/locations/yelp", searchRequest);
   },
-  // Gets all Locations with the given username
-  getSaved: (username) => {
-    console.log(`User signed in as \n${username}`)
+  // Gets all Locations with the given id
+  getSaved: username => {
     const searchUser = {
       user: username
     }
