@@ -1,12 +1,10 @@
 import React, { createRef, Component } from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
 import './Map.css';
+import Fa from 'mdbreact';
 
-
-// const stamenTonerTiles = 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner-background/{z}/{x}/{y}.png';
 const CartoDB_Positron = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png';
 const CartoDB_PositronAttr = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
-// const stamenTonerAttr = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
 class RoamMap extends Component {
     constructor(props) {
@@ -30,20 +28,14 @@ class RoamMap extends Component {
         this.mapRef.current.leafletElement.locate()
     }
 
-    /* addMarker = (e) => {
-        const markers = this.state.markerLocations
-        markers.push(e.latlng)
-        this.setState({ markerLocations: markers })
-    } */
-
     componentDidUpdate(prevProps) {
-        if (this.props.locations !== prevProps.locations) {
-            console.log("props updated!\n", this.props.locations)
+        if (this.props.userLocations !== prevProps.userLocations) {
+            console.log("props updated!\n", this.props.userLocations)
             //want to set value of prettyLocationsArray 
             let prettyLocationsArray = [];
             //This mapping function needs to match the layout of markerLocations in state, 
             //or else shit breaks. Like instantly.
-            this.props.locations.map(location => {
+            this.props.userLocations.map(location => {
                 let tempLocation = {
                     latlng: {
                         lat: 0,
@@ -51,8 +43,8 @@ class RoamMap extends Component {
                     },
                     name: location.name
                 };
-                tempLocation.latlng.lat = location.coordinates.latitude
-                tempLocation.latlng.lng = location.coordinates.longitude
+                tempLocation.latlng.lat = location.location.lat
+                tempLocation.latlng.lng = location.location.long
                 //So this part f**king works. State loads the markers successfully, as latlng coordinates.
                 prettyLocationsArray.push(tempLocation);
             })
@@ -60,7 +52,36 @@ class RoamMap extends Component {
             //again, state is set successfully, from this point
             this.setState({ markerLocations: prettyLocationsArray })
         }
+        if (this.props.yelpLocations !== prevProps.yelpLocations) {
+            console.log("Yelp props updated!\n", this.props.yelpLocations)
+            //want to set value of prettyLocationsArray 
+            let prettyYelpArray = [];
+            //This mapping function needs to match the layout of markerLocations in state, 
+            //or else shit breaks. Like instantly.
+            this.props.yelpLocations.map(location => {
+                let yelpLocation = {
+                    latlng: {
+                        lat: 0,
+                        lng: 0
+                    },
+                    name: location.name
+                };
+                yelpLocation.latlng.lat = location.coordinates.latitude
+                yelpLocation.latlng.lng = location.coordinates.longitude
+                //So this part f**king works. State loads the markers successfully, as latlng coordinates.
+                prettyYelpArray.push(yelpLocation);
+            })
+            console.log("Pretty Yelp Locations", prettyYelpArray)
+            //again, state is set successfully, from this point
+            this.setState({ markerLocations: prettyYelpArray })
+        }
     }
+
+    /* addMarker = (e) => {
+        const markers = this.state.markerLocations
+        markers.push(e.latlng)
+        this.setState({ markerLocations: markers })
+    } */
 
     /*     renderMarkers(locationArray) {
             console.log("Location Array\n", locationArray)
@@ -74,7 +95,7 @@ class RoamMap extends Component {
         } */
 
     //handleClick = () => {
-        //want an array of locations to drop pins
+    //want an array of locations to drop pins
     //}
 
     handleLocationFound = e => {
@@ -82,15 +103,16 @@ class RoamMap extends Component {
             hasLocation: true,
             latlng: e.latlng,
         })
+        this.props.passLoc(e.latlng);
     }
 
     render() {
         const findYouMarker = this.state.hasLocation ? (
-            <Marker position={this.state.latlng}>
+            <CircleMarker center={this.state.latlng} radius={10} id="circle-marker">
                 <Popup>
                     <span>You are here</span>
                 </Popup>
-            </Marker>
+            </CircleMarker>
         ) : null
         return (
             <div>
@@ -101,7 +123,7 @@ class RoamMap extends Component {
                     onLocationfound={this.handleLocationFound}
                     ref={this.mapRef}
                     className="leaflet-container"
-                    zoom={13}>
+                    zoom={11}>
                     <TileLayer
                         attribution={CartoDB_PositronAttr}
                         url={CartoDB_Positron}
