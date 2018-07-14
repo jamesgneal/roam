@@ -26,10 +26,10 @@
     "yelp-fusion": "^2.0.3"
   },
   "scripts": {
-    "start": "cd client & react-scripts start",
-    "build": "cd client & react-scripts build",
-    "test": "cd client & react-scripts test --env=jsdom",
-    "eject": "cd client & react-scripts eject",
+    "start": "cd client && react-scripts start",
+    "build": "cd client && react-scripts build",
+    "test": "cd client && react-scripts test --env=jsdom",
+    "eject": "cd client && react-scripts eject",
     "api": "nodemon server.js",
     "dev": "concurrently \"cd client && react-scripts start\" \"nodemon server.js\""
   },
