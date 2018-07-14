@@ -132,7 +132,7 @@ class RoamMap extends Component {
                     {/* {this.state.markerLocations.length ? ( */}
                     {this.state.markerLocations.map((location, index) => 
                         //console.log(location);
-                        <Marker key={`marker-${index}`} position={location.latlng} style={{color:"red"}}>
+                        <Marker key={`marker-${index}`} position={location.latlng}>
                             <Popup>
                                 <span>{location.name}</span>
                             </Popup>
