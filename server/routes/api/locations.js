@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const locationController = require("../../controllers/yelpController");
+const locationController = require("../../controllers/locationController");
 
 // Matches with "/api/locations"
 router
@@ -23,5 +23,10 @@ router
   .put(locationController.update)
   .delete(locationController.remove);
 
+// Matches with "/api/locations/city"
+router.route("/city").post(locationController.getNewCity);
+
+// Matches with "/api/locations/latlng"
+router.route("/latlng").post(locationController.getRevCity);
+
 module.exports = router;
-  

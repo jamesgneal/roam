@@ -15,6 +15,7 @@ export default {
     };
  return axios.post("/api/locations/yelp", searchRequest);
   },
+
   // Gets all Locations with the given id
   getSaved: username => {
     const searchUser = {
@@ -22,12 +23,30 @@ export default {
     }
     return axios.post("/api/locations/user", searchUser);
   },
+
   // Deletes the Location with the given id
   deleteLocations: function(id) {
     return axios.delete("/api/locations/" + id);
   },
+
   // Saves an Location to the database
   saveLocation: function(locationData) {
     return axios.post("/api/locations", locationData);
+  },
+
+  // Relocates user in new city for searches
+  getNewCity: newCity => {
+    const citySearch = {
+        city: newCity
+    }
+    return axios.post("/api/locations/city", citySearch);
+  },
+
+  // On app load, use current latlng to find current city name
+  getRevCity: newLatLng => {
+    const latLngSearch = {
+        location: newLatLng
+    }
+    return axios.post("/api/locations/latlng", latLngSearch);
   }
 };

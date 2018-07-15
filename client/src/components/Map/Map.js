@@ -16,8 +16,8 @@ class RoamMap extends Component {
             //in a format of {latlng: {lat: ####, lng: ####}}
             markerLocations: [],
             latlng: {
-                lat: 37.5407,
-                lng: -77.4360,
+                lat: null,
+                lng: null,
             }
         }
     }
@@ -29,6 +29,11 @@ class RoamMap extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (this.state.latlng !== this.props.newCity) {
+            this.setState({
+                latlng: this.props.newCity
+            });
+        }
         if (this.props.userLocations !== prevProps.userLocations) {
             console.log("props updated!\n", this.props.userLocations)
             //want to set value of prettyLocationsArray 

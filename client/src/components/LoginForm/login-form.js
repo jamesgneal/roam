@@ -69,11 +69,9 @@ class LoginForm extends Component {
     } else {
       return (
         <div className="container">
-          {/* <div className="row align-items-center justify-content-center">
-            <div className="col"> */}
           <form id="form-mainbox">
             <h1>roam</h1>
-            <p>{this.state.errorMessage}</p>
+            <p className="error-message">{this.state.errorMessage}</p>
             <div className="form-group-row">
               <label htmlFor="username" className="col-sm-4 col-form-label">
                 USERNAME
@@ -95,7 +93,7 @@ class LoginForm extends Component {
               </label>
               <div className="col-sm-8">
                 <input
-                  className="form-input"
+                  className="form-input bottom-form-input"
                   id="password"
                   type="password"
                   name="password"
@@ -112,7 +110,7 @@ class LoginForm extends Component {
               Log In
             </button>
             <br />
-            <a href="/login" id="signup-link">
+            <a href="/login">
               Not a member? Register here.
             </a>
           </form>

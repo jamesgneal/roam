@@ -1,6 +1,7 @@
-.container {
+/* html,
+body {
     background-color: black;
-}
+} */
 
 #form-mainbox {
     position: absolute;
@@ -10,7 +11,8 @@
 }
 
 h1 {
-    color: black;
+    color: white;
+    background-color: black;
     margin: 0 0 30px;
     padding: 0;
 }
@@ -21,16 +23,12 @@ label {
     font-size: .75rem;
     margin-top: 10px;
 }
-.error-message {
+
+p {
     color: rgb(206, 78, 78);
     font-size: .75rem;
-    line-height: .75rem;
 }
 
-.bottom-form-input {
+#password {
     margin: 0 0 45px;
-}
-
-input {
-    border: 1px solid gray;
 }

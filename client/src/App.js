@@ -16,8 +16,8 @@ class App extends Component {
     super();
     (this.state = {
       latlng: {
-        lat: 37.5407,
-        lng: -77.436
+        lat: null,
+        lng: null
       },
       userLocations: [],
       yelpLocations: [],
@@ -68,12 +68,6 @@ class App extends Component {
       this.setState({
         userLocations: res.data
       });
-      // console.log(
-      //   `\n****** This is the saved Locations data from mongo ******\n\n`
-      // );
-      // this.state.userLocations.forEach(element => {
-      //   console.log(element);
-      // });
     });
   };
 
@@ -108,31 +102,48 @@ class App extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category, [
-      this.state.latlng.lat,
-      this.state.latlng.lng
-    ])
-      // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
+    API.getNewCity(this.state.newCity)
       .then(response => {
-        /* const cleanResponse = JSON.stringify(
-          response.data.jsonBody.businesses,
-          null,
-          4
-        ); */
-        this.setState({ locations: response.data.jsonBody.businesses });
-        //console.log(`\n\n${cleanResponse}\n\n`);
+        let newCenter = {
+            latLng: response.data.results[0].locations[0].latLng,
+            city: response.data.results[0].locations[0].adminArea5,
+            stateAbbrv: response.data.results[0].locations[0].adminArea3,
+            country: response.data.results[0].locations[0].adminArea1
+        };
+        let prettyJSON = JSON.stringify(newCenter, null, 4);
+        console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
+        this.setState({
+          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${newCenter.country}`
+        });
+        this.setState({
+          latlng: newCenter.latLng});
       })
       .catch(e => {
         console.log(e);
       });
   };
-  // COME BACK AND MAKE THIS AN ONLOAD FUNCTION THAT GETS ALL OF THE CATEGORIES AND SETS THEM TO STATE
-  getCategories = event => {
-    event.preventDefault();
+
+  reverseLatLng = (latLng) => {
+    API.getRevCity(latLng)
+      .then(response => {
+        let newCenter = {
+            latLng: response.data.results[0].locations[0].latLng,
+            city: response.data.results[0].locations[0].adminArea5,
+            stateAbbrv: response.data.results[0].locations[0].adminArea3,
+            country: response.data.results[0].locations[0].adminArea1
+        };
+        let prettyJSON = JSON.stringify(newCenter, null, 4);
+        console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
+        this.setState({
+          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${newCenter.country}`
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   handleCategoryButton = (cat, event) => {
-    //event.preventDefault();
     API.getLocations(cat, [this.state.latlng.lat, this.state.latlng.lng])
       .then(response => {
         this.setState({
@@ -148,6 +159,7 @@ class App extends Component {
     this.setState({
       latlng: loc
     });
+    this.reverseLatLng(this.state.latlng);
   };
 
   render() {
@@ -167,11 +179,7 @@ class App extends Component {
         <Route
           exact
           path="/logout"
-          render={() => (
-            <LoginForm
-              updateUser={this.updateUser}
-            />
-          )}
+          render={() => <LoginForm updateUser={this.updateUser} />}
         />
         <Route
           exact
@@ -181,7 +189,7 @@ class App extends Component {
               <form onSubmit={this.handleFormSubmit}>
                 <SearchBar
                   name="newCity"
-                  placeholder="Change City"
+                  placeholder="a new city"
                   value={this.state.newCity}
                   onChange={this.handleInputChange}
                 />
@@ -190,8 +198,8 @@ class App extends Component {
               <RoamMap
                 userLocations={this.state.userLocations}
                 yelpLocations={this.state.yelpLocations}
-                roamLocations={this.state.yelpLocations}
-                newCity={this.state.newCity}
+                roamLocations={this.state.roamLocations}
+                newCity={this.state.latlng}
                 passLoc={this.handleUserLocation}
               />
               <PinBtn

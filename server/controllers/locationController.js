@@ -1,33 +1,45 @@
+const axios = require("axios");
 const db = require("../database/models");
 const yelp = require("yelp-fusion");
-const apiKey =
+const apiKeyYelp =
   "diAbxadZ_x4ddstAPTyf-nHrw5kOhKM9Mh16l6cBS8TUqUJUX_Y3AE6ah4-_es8ZSQzTlyXc6X2TFT02kMYiuxTsHOiG9zuegMujxxhC4PPQTlUO1lQ--d-odHA3W3Yx";
+const apiKeyMapQuest = "NWl7WfG1SosoJvAPwuiaWvRaf3oWmYKO";
 
 // Defining methods for the locationController
 module.exports = {
   findNew: function(req, res) {
-    // console.log(`'nThis is the req that hits the server:\n${prettyReq}`);
-    // const searchRequest = {
-    //   term: req.body,
-    //   limit: 10,
-    //   location: "Richmond, Virginia"
-    // };
-    const prettySearch = JSON.stringify(req.body, null, 4);
-    console.log(`\nThis is the searchRequest prepared by the client and passed to the server:\n${prettySearch}`);
-
-    const yelpClient = yelp.client(apiKey);
-
+    const yelpClient = yelp.client(apiKeyYelp);
     yelpClient
       .search(req.body)
       .then(response => {
-        //const prettyJson = JSON.stringify(response.jsonBody.businesses, null, 4);
-        //console.log(prettyJson);
         res.json(response);
       })
       .catch(e => {
         console.log(e);
       });
   },
+  getNewCity: (req, res) => {
+    axios.post(`https://www.mapquestapi.com/geocoding/v1/address?key=${apiKeyMapQuest}&inFormat=json&outFormat=json&json={"location":{"street":"${req.body.city}"},"options":{"thumbMaps":false,"maxResults":"1"}}`)
+    .then(response => {
+      res.json(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
+
+  getRevCity: (req, res) => {
+    axios.post(`https://www.mapquestapi.com/geocoding/v1/reverse?key=${apiKeyMapQuest}&location=${req.body.location.lat}%2C${req.body.location.lng}&outFormat=json&thumbMaps=false`)
+    .then(response => {
+      console.log(response.data);
+      res.json(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
+
+
   findAll: function(req, res) {
     db.Location.find(req.query)
       .sort({ date: -1 })
@@ -35,8 +47,6 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findByUsername: function(req, res) {
-    const prettyJson = JSON.stringify(req.body, null, 4);
-    console.log(`This is the search term:\n${prettyJson}`)
     db.Location.find(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
