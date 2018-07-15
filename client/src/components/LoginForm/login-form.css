@@ -1,0 +1,36 @@
+.container {
+    background-color: black;
+}
+
+#form-mainbox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+h1 {
+    color: black;
+    margin: 0 0 30px;
+    padding: 0;
+}
+
+a,
+label {
+    color: gray;
+    font-size: .75rem;
+    margin-top: 10px;
+}
+.error-message {
+    color: rgb(206, 78, 78);
+    font-size: .75rem;
+    line-height: .75rem;
+}
+
+.bottom-form-input {
+    margin: 0 0 45px;
+}
+
+input {
+    border: 1px solid gray;
+}

@@ -1,0 +1,34 @@
+/* html,
+body {
+    background-color: black;
+} */
+
+#form-mainbox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+h1 {
+    color: white;
+    background-color: black;
+    margin: 0 0 30px;
+    padding: 0;
+}
+
+a,
+label {
+    color: gray;
+    font-size: .75rem;
+    margin-top: 10px;
+}
+
+p {
+    color: rgb(206, 78, 78);
+    font-size: .75rem;
+}
+
+#password {
+    margin: 0 0 45px;
+}
