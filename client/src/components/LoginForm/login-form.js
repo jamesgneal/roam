@@ -19,7 +19,7 @@ class LoginForm extends Component {
   componentDidUpdate() {
       if (this.props.user) {
           this.setState({
-              redirectTo: "/home"
+              redirectTo: "/home/pins"
           })
       }
   }
@@ -50,7 +50,7 @@ class LoginForm extends Component {
           });
           // update the state to redirect to home
           this.setState({
-            redirectTo: "/home"
+            redirectTo: "/home/pins"
           });
         }
       })
@@ -110,7 +110,7 @@ class LoginForm extends Component {
               Log In
             </button>
             <br />
-            <a href="/login">
+            <a href="/signup">
               Not a member? Register here.
             </a>
           </form>
