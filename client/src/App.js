@@ -235,7 +235,7 @@ class App extends Component {
                 user={this.state.username}
                 newPin={this.saveLocation}
               />
-              <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>} />
+              {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
             </div>
           )}
         />
@@ -249,7 +249,7 @@ class App extends Component {
               savedLocations={this.state.userLocations}
               deleteCard={this.deleteLocation}
             />
-            <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>
+            {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
             </div>
           )}
         />
@@ -269,11 +269,11 @@ class App extends Component {
               </div>
               <YelpSearchCards saveCard={this.saveLocation}
               locations={this.state.yelpLocations} />
-              <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>
+              {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
             </div>
           )}
         />
-        {/* <Route path="/home" render={() => <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>} /> */}
+        <Route path="/home" render={() => <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>} />
       </div>
     );
   }
