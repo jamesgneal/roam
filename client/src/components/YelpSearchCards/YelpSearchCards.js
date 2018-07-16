@@ -2,18 +2,15 @@ import React, { Component } from "react";
 import SaveBtn from "../SaveBtn";
 import { Col, Row, Container } from "../Grid";
 import { List, ListItem } from "../List";
-import "./YelpSearch.css";
+import "./YelpSearchCards.css";
 
-class Locations extends Component {
+class YelpSearchCards extends Component {
   render() {
     return (
       <Container fluid>
         <Row>
-          <Col size="lg-6">
+          <Col size="sm-12">
             <div className="card">
-              <div className="card-header">
-                <h4>Search Results</h4>
-              </div>
               <div className="card-body">
                 {this.props.locations.length ? (
                   <List>
@@ -58,4 +55,4 @@ class Locations extends Component {
   }
 }
 
-export default Locations;
+export default YelpSearchCards;

@@ -12,7 +12,7 @@ const Input = props => (
       className="form-control my-0 py-1"
       {...props}
       id="inlineFormInputGroupUsername"
-      placeholder="Fing something new on Yelp"
+      placeholder="Find something new on Yelp"
       aria-label="Search"
     />
   </div>
