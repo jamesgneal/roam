@@ -133,7 +133,7 @@ class App extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category)
+    API.getLocations(this.state.category, [this.state.latlng.lat, this.state.latlng.lng])
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
         /* const cleanResponse = JSON.stringify(
