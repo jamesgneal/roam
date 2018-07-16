@@ -2,35 +2,50 @@ import React, { Component } from "react";
 import DeleteBtn from "../DeleteBtn";
 import { Col, Row, Container } from "../Grid";
 import { List, ListItem } from "../List";
-import { Input, FormBtn } from "../Form";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  CardGroup,
+  Fa
+} from "mdbreact";
+import "../Card";
 import "./Locations.css";
 
 class Locations extends Component {
   render() {
     return (
-      <Container fluid>
+      <Container fluid className="cards">
         <Row>
           <Col size="sm-12">
             <div className="card">
               <div className="card-header">
-                <h4>Saved Locations</h4>
+                <h4>{this.props.username}'s Locations</h4>
               </div>
               <div className="card-body">
                 {this.props.savedLocations.length ? (
-                  <List>
+                  <CardGroup>
                     {this.props.savedLocations.map((location, index) => (
-                      <ListItem key={`${location._id}-${index}`}>
-                        <a href={location.url}>
-                          <strong>{location.name}</strong>
-                        </a>
-                        <DeleteBtn
-                          onClick={() => this.props.deleteCard(location._id)}
-                        />
-                      </ListItem>
+                      <Card key={`${location._id}-${index}`}>
+                        <CardBody>
+                          <CardTitle tag="h3">
+                            <a href={location.url}>{location.name}</a>
+                          </CardTitle>
+                          <CardText>
+                            <strong>{location.category}</strong>
+                            <p>{location.comments}</p>
+                          </CardText>
+                          <DeleteBtn
+                            onClick={() => this.props.deleteCard(location._id)}
+                          />
+                        </CardBody>
+                      </Card>
                     ))}
-                  </List>
+                  </CardGroup>
                 ) : (
-                  <h5 className="text-center">No Saved Locations</h5>
+                  <h6 className="text-center">No Saved Locations</h6>
                 )}
               </div>
             </div>

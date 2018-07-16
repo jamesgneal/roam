@@ -10,8 +10,9 @@ import RoamMap from "./components/Map";
 import Toolbar from "./components/Toolbar/toolbar";
 import SearchBar from "./components/Form/SearchBar";
 import PinBtn from "./components/PinBtn";
-import YelpSearch from "./components/YelpSearch";
-import Input from "./components/Form/Input"
+import YelpSearchCards from "./components/YelpSearchCards";
+// import Input from "./components/Form/Input"
+import YelpSearchInput from "./components/YelpSearchInput"
 import "./App.css";
 
 class App extends Component {
@@ -87,7 +88,7 @@ class App extends Component {
 
   deleteLocation = id => {
     API.deleteLocations(id)
-      .then(res => this.loadSaved())
+      .then(res => this.loadSaved(this.state.username))
       .catch(err => console.log(err));
   };
 
@@ -242,6 +243,7 @@ class App extends Component {
           path="/home/saved"
           render={() => (
             <Locations
+              username={this.state.username}
               savedLocations={this.state.userLocations}
               deleteCard={this.deleteLocation}
             />
@@ -254,14 +256,14 @@ class App extends Component {
             <div>
               <div id="formInput">
                 <form onSubmit={this.handleSearchSubmit}>
-                  <Input
+                  <YelpSearchInput
                     value={this.state.subject}
                     onChange={this.handleInputChange}
                     name="category"
                   />
                 </form>
               </div>
-              <YelpSearch saveCard={this.saveLocation}
+              <YelpSearchCards saveCard={this.saveLocation}
               locations={this.state.yelpLocations} />
             </div>
           )}

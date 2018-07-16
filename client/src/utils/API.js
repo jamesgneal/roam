@@ -6,7 +6,7 @@ export default {
   getLocations: (searchTerm, searchLoc) => {
     //console.log(`\n====== This will eventually be a genpop database call or Yelp searh ======\n\n${searchTerm}`)
     //change for yelp
-    console.log(searchTerm);
+    console.log(`searchTerm:${searchTerm}\nsearchLoc:${searchLoc}`);
     const searchRequest = {
       term: searchTerm,
       // limit: 10,
