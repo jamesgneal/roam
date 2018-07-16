@@ -94,7 +94,7 @@ class App extends Component {
 
   saveLocation = locationData => {
     API.saveLocation(locationData)
-      .then(res => this.loadSaved())
+      .then(res => this.loadSaved(this.state.username))
       .catch(err => console.log(err));
   };
 
