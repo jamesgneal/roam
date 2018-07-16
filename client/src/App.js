@@ -1,7 +1,8 @@
-import React, { createRef, Component } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import { Route } from "react-router-dom";
 import NavbarFeatures from "./components/Navbar/navbar";
+import Locations from "./components/Locations";
 import API from "./utils/API";
 import Signup from "./components/SignUp";
 import LoginForm from "./components/LoginForm";
@@ -9,6 +10,8 @@ import RoamMap from "./components/Map";
 import Toolbar from "./components/Toolbar/toolbar";
 import SearchBar from "./components/Form/SearchBar";
 import PinBtn from "./components/PinBtn";
+import YelpSearch from "./components/YelpSearch";
+import Input from "./components/Form/Input"
 import "./App.css";
 
 class App extends Component {
@@ -16,15 +19,16 @@ class App extends Component {
     super();
     (this.state = {
       latlng: {
-        lat: 37.5407,
-        lng: -77.4360, 
+        lat: null,
+        lng: null
       },
       userLocations: [],
       yelpLocations: [],
       roamLocations: [],
       loggedIn: false,
       username: null,
-      newCity: ""
+      newCity: "",
+      category: ""
     }),
       (this.getUser = this.getUser.bind(this));
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -68,12 +72,6 @@ class App extends Component {
       this.setState({
         userLocations: res.data
       });
-      // console.log(
-      //   `\n****** This is the saved Locations data from mongo ******\n\n`
-      // );
-      // this.state.userLocations.forEach(element => {
-      //   console.log(element);
-      // });
     });
   };
 
@@ -108,7 +106,33 @@ class App extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category, [this.state.latlng.lat, this.state.latlng.lng])
+    API.getNewCity(this.state.newCity)
+      .then(response => {
+        let newCenter = {
+          latLng: response.data.results[0].locations[0].latLng,
+          city: response.data.results[0].locations[0].adminArea5,
+          stateAbbrv: response.data.results[0].locations[0].adminArea3,
+          country: response.data.results[0].locations[0].adminArea1
+        };
+        let prettyJSON = JSON.stringify(newCenter, null, 4);
+        console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
+        this.setState({
+          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${
+            newCenter.country
+          }`
+        });
+        this.setState({
+          latlng: newCenter.latLng
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  handleSearchSubmit = event => {
+    event.preventDefault();
+    API.getLocations(this.state.category)
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
         /* const cleanResponse = JSON.stringify(
@@ -116,21 +140,37 @@ class App extends Component {
           null,
           4
         ); */
-        this.setState({ locations: response.data.jsonBody.businesses });
+        this.setState({ yelpLocations: response.data.jsonBody.businesses });
         //console.log(`\n\n${cleanResponse}\n\n`);
       })
       .catch(e => {
         console.log(e);
       });
   };
-  // COME BACK AND MAKE THIS AN ONLOAD FUNCTION THAT GETS ALL OF THE CATEGORIES AND SETS THEM TO STATE
-  getCategories = event => {
-    event.preventDefault();
 
+  reverseLatLng = latLng => {
+    API.getRevCity(latLng)
+      .then(response => {
+        let newCenter = {
+          latLng: response.data.results[0].locations[0].latLng,
+          city: response.data.results[0].locations[0].adminArea5,
+          stateAbbrv: response.data.results[0].locations[0].adminArea3,
+          country: response.data.results[0].locations[0].adminArea1
+        };
+        let prettyJSON = JSON.stringify(newCenter, null, 4);
+        console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
+        this.setState({
+          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${
+            newCenter.country
+          }`
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   handleCategoryButton = (cat, event) => {
-    //event.preventDefault();
     API.getLocations(cat, [this.state.latlng.lat, this.state.latlng.lng])
       .then(response => {
         this.setState({
@@ -146,48 +186,87 @@ class App extends Component {
     this.setState({
       latlng: loc
     });
-  }
-
+    this.reverseLatLng(this.state.latlng);
+  };
 
   render() {
     return (
       <div className="App">
-        <Route exact path="/" render={() => <Signup />} />
         <Route
           exact
-          path="/login"
+          path="/"
+          render={() => (
+            <LoginForm
+              updateUser={this.updateUser}
+              user={this.state.username}
+            />
+          )}
+        />
+        <Route exact path="/signup" render={() => <Signup />} />
+        <Route
+          exact
+          path="/logout"
           render={() => <LoginForm updateUser={this.updateUser} />}
         />
         <Route
           exact
-          path="/home"
+          path="/home/pins"
           render={() => (
             <div>
               <form onSubmit={this.handleFormSubmit}>
                 <SearchBar
                   name="newCity"
-                  placeholder="Change City"
+                  placeholder="a new city"
                   value={this.state.newCity}
                   onChange={this.handleInputChange}
                 />
               </form>
-              <Toolbar catClick={this.handleCategoryButton}/>
+              <Toolbar catClick={this.handleCategoryButton} />
               <RoamMap
                 userLocations={this.state.userLocations}
                 yelpLocations={this.state.yelpLocations}
-                roamLocations={this.state.yelpLocations}
-                newCity={this.state.newCity}
+                roamLocations={this.state.roamLocations}
+                newCity={this.state.latlng}
                 passLoc={this.handleUserLocation}
               />
-              <PinBtn 
+              <PinBtn
                 userLoc={this.state.latlng}
                 user={this.state.username}
                 newPin={this.saveLocation}
               />
-              <NavbarFeatures />
             </div>
           )}
         />
+        <Route
+          exact
+          path="/home/saved"
+          render={() => (
+            <Locations
+              savedLocations={this.state.userLocations}
+              deleteCard={this.deleteLocation}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/home/search"
+          render={() => (
+            <div>
+              <div id="formInput">
+                <form onSubmit={this.handleSearchSubmit}>
+                  <Input
+                    value={this.state.subject}
+                    onChange={this.handleInputChange}
+                    name="category"
+                  />
+                </form>
+              </div>
+              <YelpSearch saveCard={this.saveLocation}
+              locations={this.state.yelpLocations} />
+            </div>
+          )}
+        />
+        <Route path="/home" render={() => <NavbarFeatures />} />
       </div>
     );
   }
