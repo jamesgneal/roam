@@ -22,17 +22,17 @@ class NavbarFeatures extends React.Component {
                     <Navbar dark color="black" expand fixed="bottom">
                         <NavbarNav center="true">
                             <NavItem>
-                                <NavLink to="/home">
+                                <NavLink to="/home/pins">
                                     <Fa icon="map-marker" />
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/search">
+                                <NavLink to="/home/search">
                                     <Fa icon="binoculars" />
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/saved">
+                                <NavLink to="/home/saved">
                                     <Fa icon="list" />
                                 </NavLink>
                             </NavItem>

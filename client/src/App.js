@@ -1,7 +1,8 @@
-import React, { createRef, Component } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import { Route } from "react-router-dom";
 import NavbarFeatures from "./components/Navbar/navbar";
+import Locations from "./components/Locations";
 import API from "./utils/API";
 import Signup from "./components/SignUp";
 import LoginForm from "./components/LoginForm";
@@ -9,6 +10,8 @@ import RoamMap from "./components/Map";
 import Toolbar from "./components/Toolbar/toolbar";
 import SearchBar from "./components/Form/SearchBar";
 import PinBtn from "./components/PinBtn";
+import YelpSearch from "./components/YelpSearch";
+import Input from "./components/Form/Input"
 import "./App.css";
 
 class App extends Component {
@@ -24,7 +27,8 @@ class App extends Component {
       roamLocations: [],
       loggedIn: false,
       username: null,
-      newCity: ""
+      newCity: "",
+      category: ""
     }),
       (this.getUser = this.getUser.bind(this));
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -105,37 +109,60 @@ class App extends Component {
     API.getNewCity(this.state.newCity)
       .then(response => {
         let newCenter = {
-            latLng: response.data.results[0].locations[0].latLng,
-            city: response.data.results[0].locations[0].adminArea5,
-            stateAbbrv: response.data.results[0].locations[0].adminArea3,
-            country: response.data.results[0].locations[0].adminArea1
+          latLng: response.data.results[0].locations[0].latLng,
+          city: response.data.results[0].locations[0].adminArea5,
+          stateAbbrv: response.data.results[0].locations[0].adminArea3,
+          country: response.data.results[0].locations[0].adminArea1
         };
         let prettyJSON = JSON.stringify(newCenter, null, 4);
         console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
         this.setState({
-          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${newCenter.country}`
+          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${
+            newCenter.country
+          }`
         });
         this.setState({
-          latlng: newCenter.latLng});
+          latlng: newCenter.latLng
+        });
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  reverseLatLng = (latLng) => {
+  handleSearchSubmit = event => {
+    event.preventDefault();
+    API.getLocations(this.state.category)
+      // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
+      .then(response => {
+        /* const cleanResponse = JSON.stringify(
+          response.data.jsonBody.businesses,
+          null,
+          4
+        ); */
+        this.setState({ yelpLocations: response.data.jsonBody.businesses });
+        //console.log(`\n\n${cleanResponse}\n\n`);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  reverseLatLng = latLng => {
     API.getRevCity(latLng)
       .then(response => {
         let newCenter = {
-            latLng: response.data.results[0].locations[0].latLng,
-            city: response.data.results[0].locations[0].adminArea5,
-            stateAbbrv: response.data.results[0].locations[0].adminArea3,
-            country: response.data.results[0].locations[0].adminArea1
+          latLng: response.data.results[0].locations[0].latLng,
+          city: response.data.results[0].locations[0].adminArea5,
+          stateAbbrv: response.data.results[0].locations[0].adminArea3,
+          country: response.data.results[0].locations[0].adminArea1
         };
         let prettyJSON = JSON.stringify(newCenter, null, 4);
         console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
         this.setState({
-          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${newCenter.country}`
+          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${
+            newCenter.country
+          }`
         });
       })
       .catch(e => {
@@ -183,7 +210,7 @@ class App extends Component {
         />
         <Route
           exact
-          path="/home"
+          path="/home/pins"
           render={() => (
             <div>
               <form onSubmit={this.handleFormSubmit}>
@@ -207,10 +234,39 @@ class App extends Component {
                 user={this.state.username}
                 newPin={this.saveLocation}
               />
-              <NavbarFeatures />
             </div>
           )}
         />
+        <Route
+          exact
+          path="/home/saved"
+          render={() => (
+            <Locations
+              savedLocations={this.state.userLocations}
+              deleteCard={this.deleteLocation}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/home/search"
+          render={() => (
+            <div>
+              <div id="formInput">
+                <form onSubmit={this.handleSearchSubmit}>
+                  <Input
+                    value={this.state.subject}
+                    onChange={this.handleInputChange}
+                    name="category"
+                  />
+                </form>
+              </div>
+              <YelpSearch saveCard={this.saveLocation}
+              locations={this.state.yelpLocations} />
+            </div>
+          )}
+        />
+        <Route path="/home" render={() => <NavbarFeatures />} />
       </div>
     );
   }
