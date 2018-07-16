@@ -12,7 +12,7 @@ import SearchBar from "./components/Form/SearchBar";
 import PinBtn from "./components/PinBtn";
 import YelpSearchCards from "./components/YelpSearchCards";
 // import Input from "./components/Form/Input"
-import YelpSearchInput from "./components/YelpSearchInput"
+import YelpSearchInput from "./components/YelpSearchInput";
 import "./App.css";
 
 class App extends Component {
@@ -133,16 +133,19 @@ class App extends Component {
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category, [this.state.latlng.lat, this.state.latlng.lng])
+    API.getLocations(this.state.category, [
+      this.state.latlng.lat,
+      this.state.latlng.lng
+    ])
       // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
       .then(response => {
-        /* const cleanResponse = JSON.stringify(
+        const cleanResponse = JSON.stringify(
           response.data.jsonBody.businesses,
           null,
           4
-        ); */
+        );
         this.setState({ yelpLocations: response.data.jsonBody.businesses });
-        //console.log(`\n\n${cleanResponse}\n\n`);
+        console.log(`\n\n${cleanResponse}\n\n`);
       })
       .catch(e => {
         console.log(e);
@@ -241,20 +244,6 @@ class App extends Component {
         />
         <Route
           exact
-          path="/home/saved"
-          render={() => (
-            <div>
-            <Locations
-              username={this.state.username}
-              savedLocations={this.state.userLocations}
-              deleteCard={this.deleteLocation}
-            />
-            {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
-            </div>
-          )}
-        />
-        <Route
-          exact
           path="/home/search"
           render={() => (
             <div>
@@ -267,13 +256,40 @@ class App extends Component {
                   />
                 </form>
               </div>
-              <YelpSearchCards saveCard={this.saveLocation}
-              locations={this.state.yelpLocations} />
+              <YelpSearchCards
+                saveCard={this.saveLocation}
+                reloadSaved={this.loadSaved}
+                locations={this.state.yelpLocations}
+                relodSaved={this.state.loadSaved}
+                loggedInAs={this.state.username}
+              />
               {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
             </div>
           )}
         />
-        <Route path="/home" render={() => <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>} />
+        <Route
+          exact
+          path="/home/saved"
+          render={() => (
+            <div>
+              <Locations
+                username={this.state.username}
+                savedLocations={this.state.userLocations}
+                deleteCard={this.deleteLocation}
+              />
+              {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
+            </div>
+          )}
+        />
+        <Route
+          path="/home"
+          render={() => (
+            <NavbarFeatures
+              user={this.state.username}
+              updateUser={this.updateUser}
+            />
+          )}
+        />
       </div>
     );
   }
