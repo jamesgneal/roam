@@ -29,9 +29,9 @@ class RoamMap extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.state.latlng !== this.props.newCity) {
+        if (this.state.latlng !== this.props.city) {
             this.setState({
-                latlng: this.props.newCity
+                latlng: this.props.city
             });
         }
         if (this.props.userLocations !== prevProps.userLocations) {

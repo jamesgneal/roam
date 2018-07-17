@@ -1,29 +1,25 @@
-.input-group.md-form.form-sm.form-1 input{
-  border: 1px solid #bdbdbd;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-}
-
 .md-form {
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
+#navbar {
+  background-color: #2c2c2c !important;
+}
 
-.time-btn-group {
+
+/* .time-btn-group {
   width: 100%;
   position: absolute;
   bottom: 8.5%;
 }
 
 .time-btn {
-  /* position:fixed; */
   z-index:5001;
   height: 20px;
   width: 100%;
   padding-top: 1px;
   padding-bottom: 2px;
-  /* margin-bottom: 0px; */
   background-color: #2c2c2c!important;     
   border: 1px solid #bdbdbd;
   
@@ -31,12 +27,6 @@
 }
 
 .time {
-  
   width:100%;
-  /* margin-top:50%; */
-  /* margin-top:3%; */
-  
- 
-  
-}
+} */
 

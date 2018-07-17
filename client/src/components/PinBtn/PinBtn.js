@@ -37,19 +37,18 @@ class PinBtn extends React.Component {
   }
   render() {
     return (
-      <div className="save-location-btn modal-container">
-        <Button className="btn-large" onClick={this.toggle}>
+      <div>
+        <Button className="btn-large save-location-btn" onClick={this.toggle}>
           +
         </Button>
+        <div className="modal-container">
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}
           size="fluid"
           position="bottom"
         >
-          <ModalHeader className="header">
-            Add New Location
-          </ModalHeader>
+          <ModalHeader className="header">Add New Location</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label> Category:</label>
@@ -83,13 +82,16 @@ class PinBtn extends React.Component {
               name="locComment"
               onChange={this.handleInputChange}
             />
-            {/* <br></br>
-                        <Button className="btn-large-modal btn-large-left"><Fa icon="camera-retro" size="2x" /></Button>{' '}
-                        <span className="add-photo"> Add Photo </span> */}
+            <Button className="btn-large-modal btn-large-left">
+              <Fa icon="camera-retro" size="2x" />
+            </Button>{" "}
+            <span className="add-photo"> Add Photo </span>
           </ModalBody>
 
           <ModalFooter className="footer">
-            <Button className="btn-large-modal" onClick={this.toggle}><Fa icon="times" size="2x" /></Button>{' '}
+            <Button className="btn-large-modal" onClick={this.toggle}>
+              <Fa icon="times" size="2x" />
+            </Button>{" "}
             <Button
               className="btn-large-modal"
               onClick={() => {
@@ -103,17 +105,6 @@ class PinBtn extends React.Component {
                   comments: this.state.locComment,
                   category: this.state.locCategory
                 });
-                // console.log({
-                //     name: this.state.locName,
-                //     location: {
-                //       lat: this.props.latlng.lat,
-                //       long: this.props.latlng.lng
-                //     },
-                //     user: this.props.user,
-                //     comments: this.state.LocComment,
-                //     category: this.state.locCategory
-
-                //   });
                 this.setState({
                   modal: false
                 });
@@ -123,6 +114,7 @@ class PinBtn extends React.Component {
             </Button>
           </ModalFooter>
         </Modal>
+      </div>
       </div>
     );
   }
