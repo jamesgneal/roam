@@ -7,7 +7,7 @@ class Signup extends Component {
   constructor() {
     super();
     this.state = {
-      username: "", 
+      username: "",
       password: "",
       confirmPassword: "",
       redirectTo: null,
@@ -27,31 +27,40 @@ class Signup extends Component {
     event.preventDefault();
 
     //request to server to add a new username/password
-    axios
-      .post("/api/user/", {
-        username: this.state.username,
-        password: this.state.password
+    //if password===confirm password, continue, else, exit and alert that passwords must match.
+    if (this.state.password === this.state.confirmPassword) {
+      axios
+        .post("/api/user/", {
+          username: this.state.username,
+          password: this.state.password
+        })
+        .then(response => {
+          console.log(response);
+          if (!response.data.errmsg) {
+            console.log("successful signup");
+            this.setState({
+              //redirect to login page
+              redirectTo: "/"
+            });
+          } else {
+            this.setState({
+              errorMessage:
+                "Username unavailable."
+            });
+            alert("username already taken");
+          }
+        })
+        .catch(error => {
+          console.log("signup error: ");
+          console.log(error);
+        });
+    } else {
+      this.setState({
+        errorMessage:
+          "Passwords must match."
       })
-      .then(response => {
-        console.log(response);
-        if (!response.data.errmsg) {
-          console.log("successful signup");
-          this.setState({
-            //redirect to login page
-            redirectTo: "/"
-          });
-        } else {
-          this.setState({
-            errorMessage:
-              "Username unavailable."
-          });
-          alert("username already taken");
-        }
-      })
-      .catch(error => {
-        console.log("signup error: ");
-        console.log(error);
-      });
+      alert("Please make sure password and confirm password are the same");
+    }
   }
 
   render() {
@@ -61,10 +70,10 @@ class Signup extends Component {
       return (
         <div className="container">
           <form id="form-mainbox">
-          <h5>Sign up for</h5>
-          <h1>roam</h1>
-          <p className="error-message">{this.state.errorMessage}</p>
-          <div className="form-group-row">
+            <h5>Sign up for</h5>
+            <h1>roam</h1>
+            <p className="error-message">{this.state.errorMessage}</p>
+            <div className="form-group-row">
               <label htmlFor="username" className="col-sm-4 col-form-label">
                 USERNAME
               </label>
