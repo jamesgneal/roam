@@ -37,6 +37,7 @@ class Locations extends Component {
                             <strong>{location.category}</strong>
                             <p>{location.comments}</p>
                           </CardText>
+                          <img src={location.image} className="location-image"/>
                           <DeleteBtn
                             onClick={() => this.props.deleteCard(location._id)}
                           />

@@ -48,5 +48,9 @@ export default {
         location: newLatLng
     }
     return axios.post("/api/locations/latlng", latLngSearch);
+  },
+  postImage: imageData => {
+    console.log(imageData);
+    return axios.post("/api/locations/image", imageData);
   }
 };

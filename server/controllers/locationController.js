@@ -39,6 +39,24 @@ module.exports = {
     });
   },
 
+  postImage: (req, res) => {
+    console.log(req.body);
+    // axios({
+    //   method: 'post',
+    //   url: 'https://api.imgur.com/3/image',
+    //   headers: {
+    //       "Authorization": "Client-ID bee8ee0ba7a0d8c"
+    //     },
+    //   data: req
+    // })
+    // .then(response => {
+    //   console.log(response.data);
+    //   res.json(response.data);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
+  },
 
   findAll: function(req, res) {
     db.Location.find(req.query)
