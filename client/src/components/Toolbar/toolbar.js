@@ -1,36 +1,50 @@
 import React from "react";
-import {
-  Button,
-  Fa
-} from "mdbreact";
+import { Button, Fa } from "mdbreact";
 import "./toolbar.css";
 
-class ToolbarFeatures extends React.Component { 
+class ToolbarFeatures extends React.Component {
   render() {
     return (
       <div>
         <div className="background modal-container">
-          <div className="toolbar">
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("breweries", e)}>
-              <Fa icon="beer" />
-            </Button>
-            {/* <Button className="btn-circle">
+          {/* <div className="toolbar"> */}
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("breweries", e)}
+          >
+            <Fa icon="beer" />
+          </Button>
+          {/* <Button className="btn-circle">
               <Fa icon="shopping-bag" />
             </Button> */}
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("restaurants", e)}>
-              <Fa icon="apple" id="apple" />
-            </Button>
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("local flavor", e)}>All</Button>
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("concert venues", e)}>
-              <Fa icon="headphones" />
-            </Button>
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("parks", e)}>
-              <Fa icon="bicycle" />
-            </Button>
-            {/* <Button className="btn-circle">
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("restaurants", e)}
+          >
+            <Fa icon="apple" id="apple" />
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("local flavor", e)}
+          >
+            All
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("concert venues", e)}
+          >
+            <Fa icon="headphones" />
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("parks", e)}
+          >
+            <Fa icon="bicycle" />
+          </Button>
+          {/* <Button className="btn-circle">
               <Fa icon="users" />
             </Button> */}
-          </div>
+          {/* </div> */}
         </div>
 
         {/* <div>
