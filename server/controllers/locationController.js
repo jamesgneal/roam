@@ -41,21 +41,37 @@ module.exports = {
 
   postImage: (req, res) => {
     console.log(req.body);
-    // axios({
-    //   method: 'post',
-    //   url: 'https://api.imgur.com/3/image',
-    //   headers: {
-    //       "Authorization": "Client-ID bee8ee0ba7a0d8c"
-    //     },
-    //   data: req
-    // })
-    // .then(response => {
-    //   console.log(response.data);
-    //   res.json(response.data);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // });
+
+    const myClientID = "bee8ee0ba7a0d8c";
+
+    const config = {
+      baseURL: "https://api.imgur.com",
+      headers: {
+        Authorization: "Client-ID " + myClientID
+      }
+    };
+
+    // axios
+    //   .post("/3/image", form, config)
+    //   .then(result => {
+    //     console.log("image post success");
+    //     console.log(result);
+    //     this.setState({
+    //       locImgur: result.data.data.link
+    //     });
+    //     this.props.newPin({
+    //       name: this.state.locName,
+    //       location: {
+    //         lat: this.props.userLoc.lat,
+    //         long: this.props.userLoc.lng
+    //       },
+    //       user: this.props.user,
+    //       comments: this.state.locComment,
+    //       category: this.state.locCategory,
+    //       image: this.state.locImgur
+    //     });
+    //   })
+  
   },
 
   findAll: function(req, res) {

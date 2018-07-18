@@ -7,7 +7,6 @@ import {
   ModalFooter,
   ModalHeader
 } from "mdbreact";
-import API from "../../utils/API";
 import axios from "axios";
 import "./PinBtn.css";
 
@@ -63,17 +62,6 @@ class PinBtn extends React.Component {
           category: this.state.locCategory,
           image: this.state.locImgur
         });
-        // console.log({
-        //     name: this.state.locName,
-        //     location: {
-        //       lat: this.props.latlng.lat,
-        //       long: this.props.latlng.lng
-        //     },
-        //     user: this.props.user,
-        //     comments: this.state.LocComment,
-        //     category: this.state.locCategory
-
-        //   });
         this.setState({
           modal: false
         });
@@ -116,12 +104,13 @@ class PinBtn extends React.Component {
     let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <img src={imagePreviewUrl} alt=" " />;
-    } else {
-      $imagePreview = (
-        <div className="previewText">Please select an Image for Preview</div>
-      );
-    }
+      $imagePreview = <img id="img-loader" src={imagePreviewUrl} alt=" " />;
+    } 
+    // else {
+    //   $imagePreview = (
+    //     <div className="preview-text">Add a photo</div>
+    //   );
+    //}
 
     return (
       <div className="save-location-btn modal-container">
@@ -170,22 +159,17 @@ class PinBtn extends React.Component {
               name="locComment"
               onChange={this.handleInputChange}
             />
-            <br />
             <form>
               <input
-                className="fileInput"
+                className="input-file"
                 type="file"
+                id="photo-upload"
                 onChange={e => this.handleImageChange(e)}
               />
-              <Button
-                className="btn-large-modal btn-large-left"
-                // onClick={e => this.handleSubmit(e)}
-              >
-                <Fa icon="camera-retro" size="2x" />
-              </Button>{" "}
+              <label htmlFor="photo-upload" className="btn-large-modal"><Fa id="camera-icon" icon="camera-retro" size="2x" /></label>
+              <div className="img-preview">{$imagePreview}</div>
             </form>
-            <div className="imgPreview">{$imagePreview}</div>
-            <span className="add-photo"> Add Photo </span>
+            
           </ModalBody>
 
           <ModalFooter className="footer">
