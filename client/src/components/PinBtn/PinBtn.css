@@ -13,7 +13,7 @@
 }
 
 #button-holder {
-  position: absolute;
+  position: absolute !important;
   bottom: 0;
   left: 50%;
 }
