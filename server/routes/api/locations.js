@@ -29,4 +29,7 @@ router.route("/city").post(locationController.getNewCity);
 // Matches with "/api/locations/latlng"
 router.route("/latlng").post(locationController.getRevCity);
 
+// Matches with "/api/locations/image"
+router.route("/image").post(locationController.postImage);
+
 module.exports = router;

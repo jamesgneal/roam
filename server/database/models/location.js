@@ -10,8 +10,8 @@ const locationSchema = new Schema({
   url: { type: String },
   user: { type: String },
   comments: { type: String },
-  category: { type: String }
-
+  category: { type: String },
+  image: { type: String }
 });
 
 const SavedLocation = mongoose.model("Location", locationSchema);

@@ -17,7 +17,7 @@ import "./App.css";
 class App extends Component {
   constructor() {
     super();
-    (this.state = {
+    this.state = {
       latlng: {
         lat: null,
         lng: null
@@ -29,8 +29,8 @@ class App extends Component {
       username: null,
       city: "",
       category: ""
-    }),
-      (this.getUser = this.getUser.bind(this));
+    }
+    this.getUser = this.getUser.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }

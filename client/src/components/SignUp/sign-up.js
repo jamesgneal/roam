@@ -7,9 +7,10 @@ class Signup extends Component {
   constructor() {
     super();
     this.state = {
-      username: "", 
+      username: "",
       password: "",
       confirmPassword: "",
+      passwordStrength: "",
       redirectTo: null,
       errorMessage: ""
     };
@@ -20,38 +21,70 @@ class Signup extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+    //this is called after state is set, because if you try to do so simultaneously you will throw an error 
+    //where a check happens the same time the password state is trying to be set. 
+    this.strengthCheck();
   }
+
+  strengthCheck() {
+    //check strength of password against regex expressions for simplicity and saving space
+    //the regex is shamelessly lifted from https://martech.zone/javascript-password-strength/
+    const strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+    const mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+    const enoughRegex = new RegExp("(?=.{6,}).*", "g");
+    let password = this.state.password;
+    if (password.length === 0) {
+      this.setState({passwordStrength: "Type Password"});
+      } else if (!enoughRegex.test(password)) {
+        this.setState({passwordStrength: "Please Use More Characters"});
+      } else if (strongRegex.test(password)) {
+        this.setState({passwordStrength: "Strong!"});
+      } else if (mediumRegex.test(password)) {
+        this.setState({passwordStrength: "Ok!"});
+      } else {
+        this.setState({passwordStrength: "Weak!"});
+      }
+  }
+
   handleSubmit(event) {
     console.log("sign-up handleSubmit, username: ");
     console.log(this.state.username);
     event.preventDefault();
 
     //request to server to add a new username/password
-    axios
-      .post("/api/user/", {
-        username: this.state.username,
-        password: this.state.password
+    //if password===confirm password, continue, else, exit and alert that passwords must match.
+    if (this.state.password === this.state.confirmPassword) {
+      axios
+        .post("/api/user/", {
+          username: this.state.username,
+          password: this.state.password
+        })
+        .then(response => {
+          console.log(response);
+          if (!response.data.errmsg) {
+            console.log("successful signup");
+            this.setState({
+              //redirect to login page
+              redirectTo: "/"
+            });
+          } else {
+            this.setState({
+              errorMessage:
+                "Username unavailable."
+            });
+            alert("username already taken");
+          }
+        })
+        .catch(error => {
+          console.log("signup error: ");
+          console.log(error);
+        });
+    } else {
+      this.setState({
+        errorMessage:
+          "Passwords must match."
       })
-      .then(response => {
-        console.log(response);
-        if (!response.data.errmsg) {
-          console.log("successful signup");
-          this.setState({
-            //redirect to login page
-            redirectTo: "/"
-          });
-        } else {
-          this.setState({
-            errorMessage:
-              "Username unavailable."
-          });
-          alert("username already taken");
-        }
-      })
-      .catch(error => {
-        console.log("signup error: ");
-        console.log(error);
-      });
+    }
   }
 
   render() {
@@ -61,10 +94,10 @@ class Signup extends Component {
       return (
         <div className="container">
           <form id="form-mainbox">
-          <h5>Sign up for</h5>
-          <h1>roam</h1>
-          <p className="error-message">{this.state.errorMessage}</p>
-          <div className="form-group-row">
+            <h5>Sign up for</h5>
+            <h1>roam</h1>
+            <p className="error-message">{this.state.errorMessage}</p>
+            <div className="form-group-row">
               <label htmlFor="username" className="col-sm-4 col-form-label">
                 USERNAME
               </label>
@@ -92,6 +125,7 @@ class Signup extends Component {
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
+                <span id="strength">Strength: {this.state.passwordStrength}</span>
               </div>
             </div>
             <div className="form-group-row">
