@@ -2,3 +2,20 @@
     display: block;
     height: 300px;
 }
+
+/* .location-img {
+    max-height: 100px;
+    width: 100%;
+} */
+
+h5 a {
+    color: black;
+}
+
+.location-desc {
+    float: left;
+}
+
+.location-action {
+    float: right;
+}

@@ -1,35 +1,55 @@
 import React from "react";
-import {
-  Button,
-  Fa
-} from "mdbreact";
+import { Button, Fa } from "mdbreact";
 import "./toolbar.css";
 
-class ToolbarFeatures extends React.Component { 
+class ToolbarFeatures extends React.Component {
   render() {
     return (
       <div>
         <div className="background modal-container">
           <div className="toolbar">
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("breweries", e)}>
-              <Fa icon="beer" />
-            </Button>
-            {/* <Button className="btn-circle">
-              <Fa icon="shopping-bag" />
-            </Button> */}
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("restaurants", e)}>
-              <Fa icon="apple" id="apple" />
-            </Button>
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("local flavor", e)}>All</Button>
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("concert venues", e)}>
-              <Fa icon="headphones" />
-            </Button>
-            <Button className="btn-circle" onClick={(e) => this.props.catClick("parks", e)}>
-              <Fa icon="bicycle" />
-            </Button>
-            {/* <Button className="btn-circle">
-              <Fa icon="users" />
-            </Button> */}
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("coffee", e)}
+          >
+            <i class="material-icons md-18">local_cafe</i>
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("restaurants", e)}
+          >
+            <i class="material-icons md-18">restaurant</i>
+          </Button><Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("bars", e)}
+          >
+            <i class="material-icons md-18">local_bar</i>
+          </Button>
+          
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("local flavor", e)}
+          >
+            All
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("concert venues", e)}
+          >
+            <i class="material-icons md-18">music_note</i>
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("parks", e)}
+          >
+            <i class="material-icons md-18">local_florist</i>
+          </Button>
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("hiking", e)}
+          >
+            <i class="material-icons md-18">terrain</i>
+          </Button>
           </div>
         </div>
 
@@ -70,7 +90,6 @@ class ToolbarFeatures extends React.Component {
                 </Button>{" "}
                 <span className="add-photo"> Add Photo </span>
               </ModalBody>
-
               <ModalFooter className="footer">
                 <Button className="btn-large-modal" onClick={this.toggle}>
                   <Fa icon="times" size="2x" />

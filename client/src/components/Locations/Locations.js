@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import DeleteBtn from "../DeleteBtn";
 import { Col, Row, Container } from "../Grid";
-import { List, ListItem } from "../List";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  CardGroup,
-  Fa
-} from "mdbreact";
+import { Card, CardBody, CardText, CardGroup, CardImage } from "mdbreact";
 import "../Card";
 import "./Locations.css";
 
@@ -29,16 +20,21 @@ class Locations extends Component {
                   <CardGroup>
                     {this.props.savedLocations.map((location, index) => (
                       <Card key={`${location._id}-${index}`}>
+                      <CardImage className="img-fluid" src={location.image} />
                         <CardBody>
+                          <div className="location-desc">
                           <h5>
                             <a href={location.url}>{location.name}</a>
                           </h5>
                           <CardText>
                             <p>{location.comments}</p>
                           </CardText>
+                          </div>
+                          <div className="location-action">
                           <DeleteBtn
                             onClick={() => this.props.deleteCard(location._id)}
                           />
+                          </div>
                         </CardBody>
                       </Card>
                     ))}
