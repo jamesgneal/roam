@@ -123,9 +123,11 @@ class PinBtn extends React.Component {
     //}
     return (
       <div className="container">
-        <Button className="btn-large save-location-btn" onClick={this.toggle}>
-          +
-        </Button>
+        <div id="button-holder">
+          <Button className="btn-large save-location-btn" onClick={this.toggle}>
+            +
+          </Button>
+        </div>
         <div className="modal-container">
           <Modal
             isOpen={this.state.modal}
@@ -175,7 +177,9 @@ class PinBtn extends React.Component {
                   onChange={e => this.handleImageChange(e)}
                 />
                 <label htmlFor="photo-upload" className="btn-large-modal">
-                  <i class="material-icons md-24" id="photo-icon">photo_camera</i>
+                  <i class="material-icons md-24" id="photo-icon">
+                    photo_camera
+                  </i>
                 </label>
                 <div className="img-preview">{$imagePreview}</div>
               </form>

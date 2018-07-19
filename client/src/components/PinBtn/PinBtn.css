@@ -12,6 +12,12 @@
   color: white;
 }
 
+#button-holder {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+
 Modal {
   z-index: 5000;
 }
