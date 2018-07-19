@@ -12,11 +12,11 @@
   color: white;
 }
 
-#button-holder {
-  position: absolute !important;
+/* #button-holder {
+  position: absolute;
   bottom: 0;
   left: 50%;
-}
+} */
 
 Modal {
   z-index: 5000;
@@ -38,7 +38,7 @@ Modal {
 }
 
 .save-location-btn {
-  position: absolute;
+  position: absolute !important;
   bottom: 60px;
   left: 50%;
   transform: translate(-30px, 0);
