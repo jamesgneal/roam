@@ -111,19 +111,19 @@ class PinBtn extends React.Component {
     //     <div className="preview-text">Add a photo</div>
     //   );
     //}
-
     return (
-      <div className="save-location-btn modal-container">
-        <Button className="btn-large" onClick={this.toggle}>
+      <div>
+        <Button className="btn-large save-location-btn" onClick={this.toggle}>
           +
         </Button>
+        <div className="modal-container">
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}
           size="fluid"
           position="bottom"
         >
-          <ModalHeader toggle={this.toggle} className="header" />
+          <ModalHeader className="header">Add New Location</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label> Category:</label>
@@ -139,19 +139,17 @@ class PinBtn extends React.Component {
                 <option>Parks</option>
               </select>
             </div>
-
-            <br />
             <label>Location Name</label>
             <input
               type="text"
-              className="form-control form-control-lg"
+              className="form-control"
               label="Loaction Name"
               id="location-name"
               name="locName"
               onChange={this.handleInputChange}
             />
             <label>Comments</label>
-            <input
+            <textarea
               type="textarea"
               className="form-control form-control-lg"
               label="Add Comments"
@@ -171,7 +169,6 @@ class PinBtn extends React.Component {
             </form>
             
           </ModalBody>
-
           <ModalFooter className="footer">
             <Button className="btn-large-modal" onClick={this.toggle}>
               <Fa icon="times" size="2x" />

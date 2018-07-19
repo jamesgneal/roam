@@ -30,11 +30,10 @@ class Locations extends Component {
                     {this.props.savedLocations.map((location, index) => (
                       <Card key={`${location._id}-${index}`}>
                         <CardBody>
-                          <CardTitle tag="h3">
+                          <h5>
                             <a href={location.url}>{location.name}</a>
-                          </CardTitle>
+                          </h5>
                           <CardText>
-                            <strong>{location.category}</strong>
                             <p>{location.comments}</p>
                           </CardText>
                           <img src={location.image} className="location-image"/>
@@ -46,7 +45,7 @@ class Locations extends Component {
                     ))}
                   </CardGroup>
                 ) : (
-                  <h6 className="text-center">No Saved Locations</h6>
+                  <h6 className="text-center">No saved locations. How dull.</h6>
                 )}
               </div>
             </div>

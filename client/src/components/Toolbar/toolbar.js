@@ -18,7 +18,7 @@ class ToolbarFeatures extends React.Component {
               <Fa icon="shopping-bag" />
             </Button> */}
             <Button className="btn-circle" onClick={(e) => this.props.catClick("restaurants", e)}>
-              <Fa icon="utensils" id="food" />
+              <Fa icon="apple" id="apple" />
             </Button>
             <Button className="btn-circle" onClick={(e) => this.props.catClick("local flavor", e)}>All</Button>
             <Button className="btn-circle" onClick={(e) => this.props.catClick("concert venues", e)}>
@@ -70,7 +70,6 @@ class ToolbarFeatures extends React.Component {
                 </Button>{" "}
                 <span className="add-photo"> Add Photo </span>
               </ModalBody>
-
               <ModalFooter className="footer">
                 <Button className="btn-large-modal" onClick={this.toggle}>
                   <Fa icon="times" size="2x" />

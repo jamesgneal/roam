@@ -11,8 +11,7 @@ import Toolbar from "./components/Toolbar/toolbar";
 import SearchBar from "./components/Form/SearchBar";
 import PinBtn from "./components/PinBtn";
 import YelpSearchCards from "./components/YelpSearchCards";
-// import Input from "./components/Form/Input"
-import YelpSearchInput from "./components/YelpSearchInput"
+import YelpSearchInput from "./components/YelpSearchInput";
 import "./App.css";
 
 class App extends Component {
@@ -28,7 +27,7 @@ class App extends Component {
       roamLocations: [],
       loggedIn: false,
       username: null,
-      newCity: "",
+      city: "",
       category: ""
     }
     this.getUser = this.getUser.bind(this);
@@ -40,6 +39,14 @@ class App extends Component {
     this.getUser();
   }
 
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  // ====================== User methods ======================
   updateUser(userObject) {
     this.setState(userObject);
   }
@@ -56,8 +63,7 @@ class App extends Component {
           loggedIn: true,
           username: response.data.user.username
         });
-        //Since a user was found and state was set, now load the user's saved data
-        this.loadSaved(this.state.username);
+        this.loadUserPins(this.state.username);
       } else {
         console.log("Get user: no user");
         this.setState({
@@ -68,7 +74,62 @@ class App extends Component {
     });
   }
 
-  loadSaved = username => {
+  // ====================== Geo methods ======================
+  handleUserLocation = loc => {
+    this.setState({
+      latlng: loc
+    });
+    this.convertLatLng(this.state.latlng);
+  };
+
+  cleanCityString = mapQuestObj => {
+    let apiRes = mapQuestObj.data.results[0].locations[0];
+    let proxyData = {
+      latLng: apiRes.latLng,
+      city: apiRes.adminArea5,
+      stateAbbrv: apiRes.adminArea3,
+      country: apiRes.adminArea1
+    };
+    let proxyString = "";
+    if (proxyData.country === "US") {
+      proxyString = `${proxyData.city}, ${proxyData.stateAbbrv}`;
+    } else {
+      proxyString = `${proxyData.city}, ${proxyData.country}`;
+    }
+    return proxyString;
+  };
+
+  convertLatLng = latLng => {
+    API.getRevCity(latLng)
+      .then(response => {
+        let cityString = this.cleanCityString(response);
+        this.setState({
+          city: cityString
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  setProxyCity = event => {
+    event.preventDefault();
+    API.getNewCity(this.state.city)
+      .then(response => {
+        let proxyLatLng = response.data.results[0].locations[0].latLng;
+        let cityString = this.cleanCityString(response);
+        this.setState({
+          city: cityString,
+          latlng: proxyLatLng
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  // ====================== Location methods ======================
+  loadUserPins = username => {
     API.getSaved(username).then(res => {
       this.setState({
         userLocations: res.data
@@ -76,95 +137,32 @@ class App extends Component {
     });
   };
 
-  loadLocations = () => {
-    API.getLocations()
-      .then(res => {
-        this.setState({
-          locations: res
-        });
-      })
-      .catch(err => console.log(err));
-  };
-
   deleteLocation = id => {
     API.deleteLocations(id)
-      .then(res => this.loadSaved(this.state.username))
+      .then(res => this.loadUserPins(this.state.username))
       .catch(err => console.log(err));
   };
 
   saveLocation = locationData => {
     API.saveLocation(locationData)
-      .then(res => this.loadSaved())
+      .then(res => this.loadUserPins(this.state.username))
       .catch(err => console.log(err));
-  };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    API.getNewCity(this.state.newCity)
-      .then(response => {
-        let newCenter = {
-          latLng: response.data.results[0].locations[0].latLng,
-          city: response.data.results[0].locations[0].adminArea5,
-          stateAbbrv: response.data.results[0].locations[0].adminArea3,
-          country: response.data.results[0].locations[0].adminArea1
-        };
-        let prettyJSON = JSON.stringify(newCenter, null, 4);
-        console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
-        this.setState({
-          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${
-            newCenter.country
-          }`
-        });
-        this.setState({
-          latlng: newCenter.latLng
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
   };
 
   handleSearchSubmit = event => {
     event.preventDefault();
-    API.getLocations(this.state.category, [this.state.latlng.lat, this.state.latlng.lng])
-      // come back to this with proper dot notation for YELP response \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
+    API.getLocations(this.state.category, [
+      this.state.latlng.lat,
+      this.state.latlng.lng
+    ])
       .then(response => {
-        /* const cleanResponse = JSON.stringify(
+        const cleanResponse = JSON.stringify(
           response.data.jsonBody.businesses,
           null,
           4
-        ); */
+        );
         this.setState({ yelpLocations: response.data.jsonBody.businesses });
-        //console.log(`\n\n${cleanResponse}\n\n`);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-  reverseLatLng = latLng => {
-    API.getRevCity(latLng)
-      .then(response => {
-        let newCenter = {
-          latLng: response.data.results[0].locations[0].latLng,
-          city: response.data.results[0].locations[0].adminArea5,
-          stateAbbrv: response.data.results[0].locations[0].adminArea3,
-          country: response.data.results[0].locations[0].adminArea1
-        };
-        let prettyJSON = JSON.stringify(newCenter, null, 4);
-        console.log(`This is the updateMapCenter res:\n ${prettyJSON}`);
-        this.setState({
-          newCity: `${newCenter.city}, ${newCenter.stateAbbrv}, ${
-            newCenter.country
-          }`
-        });
+        console.log(`\n\n${cleanResponse}\n\n`);
       })
       .catch(e => {
         console.log(e);
@@ -181,13 +179,6 @@ class App extends Component {
       .catch(e => {
         console.log(e);
       });
-  };
-
-  handleUserLocation = loc => {
-    this.setState({
-      latlng: loc
-    });
-    this.reverseLatLng(this.state.latlng);
   };
 
   render() {
@@ -214,11 +205,11 @@ class App extends Component {
           path="/home/pins"
           render={() => (
             <div>
-              <form onSubmit={this.handleFormSubmit}>
+              <form onSubmit={this.setProxyCity}>
                 <SearchBar
-                  name="newCity"
+                  name="city"
                   placeholder="a new city"
-                  value={this.state.newCity}
+                  value={this.state.city}
                   onChange={this.handleInputChange}
                 />
               </form>
@@ -227,7 +218,7 @@ class App extends Component {
                 userLocations={this.state.userLocations}
                 yelpLocations={this.state.yelpLocations}
                 roamLocations={this.state.roamLocations}
-                newCity={this.state.latlng}
+                city={this.state.latlng}
                 passLoc={this.handleUserLocation}
               />
               <PinBtn
@@ -235,21 +226,6 @@ class App extends Component {
                 user={this.state.username}
                 newPin={this.saveLocation}
               />
-              {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
-            </div>
-          )}
-        />
-        <Route
-          exact
-          path="/home/saved"
-          render={() => (
-            <div>
-            <Locations
-              username={this.state.username}
-              savedLocations={this.state.userLocations}
-              deleteCard={this.deleteLocation}
-            />
-            {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
             </div>
           )}
         />
@@ -267,13 +243,37 @@ class App extends Component {
                   />
                 </form>
               </div>
-              <YelpSearchCards saveCard={this.saveLocation}
-              locations={this.state.yelpLocations} />
-              {/* <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/> */}
+              <YelpSearchCards
+                saveCard={this.saveLocation}
+                reloadSaved={this.loadUserPins}
+                locations={this.state.yelpLocations}
+                loggedInAs={this.state.username}
+              />
             </div>
           )}
         />
-        <Route path="/home" render={() => <NavbarFeatures user={this.state.username} updateUser={this.updateUser}/>} />
+        <Route
+          exact
+          path="/home/saved"
+          render={() => (
+            <div>
+              <Locations
+                username={this.state.username}
+                savedLocations={this.state.userLocations}
+                deleteCard={this.deleteLocation}
+              />
+            </div>
+          )}
+        />
+        <Route
+          path="/home"
+          render={() => (
+            <NavbarFeatures
+              user={this.state.username}
+              updateUser={this.updateUser}
+            />
+          )}
+        />
       </div>
     );
   }
