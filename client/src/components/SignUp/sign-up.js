@@ -59,7 +59,7 @@ class Signup extends Component {
 
     //request to server to add a new username/password
     //if password===confirm password, continue, else, exit and alert that passwords must match.
-    if (this.state.password === this.state.confirmPassword) {
+    if (this.state.password === this.state.confirmPassword && this.state.password.length >= 7) {
       axios
         .post("/api/user/", {
           username: this.state.username,
@@ -84,9 +84,13 @@ class Signup extends Component {
           console.log("signup error: ");
           console.log(error);
         });
-    } else {
+    } else if (this.state.password !== this.state.confirmPassword) {
       this.setState({
         errorMessage: "Passwords must match"
+      });
+    } else if (this.state.password.length < 7) {
+      this.setState({
+        errorMessage: "Passwords must be a minimum 7 characters"
       });
     }
   }

@@ -19,6 +19,7 @@ class PinBtn extends React.Component {
       locComment: "",
       locCategory: "",
       locPhoto: { file: "", imagePreviewUrl: "" },
+      imgCheck: false,
       locImgur: "",
       errorMessage: ""
     };
@@ -29,7 +30,7 @@ class PinBtn extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     // TODO: do something with -> this.state.file
-    if (this.state.locPhoto.file.length > 0) {
+    if (this.state.imgCheck) {
       console.log("handle uploading-");
       let tempImgUrl = this.state.imagePreviewUrl.split(",");
       let image = tempImgUrl[1];
@@ -89,7 +90,8 @@ class PinBtn extends React.Component {
       this.setState({
         file: file,
         imagePreviewUrl: reader.result,
-        errorMessage: ""
+        errorMessage: "",
+        imgCheck: true
       });
     };
 
@@ -120,7 +122,7 @@ class PinBtn extends React.Component {
     //   );
     //}
     return (
-      <div>
+      <div className="container">
         <Button className="btn-large save-location-btn" onClick={this.toggle}>
           +
         </Button>
