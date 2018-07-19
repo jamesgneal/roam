@@ -10,6 +10,7 @@ class Signup extends Component {
       username: "",
       password: "",
       confirmPassword: "",
+      passwordStrength: "",
       redirectTo: null,
       errorMessage: ""
     };
@@ -20,7 +21,31 @@ class Signup extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+    //this is called after state is set, because if you try to do so simultaneously you will throw an error 
+    //where a check happens the same time the password state is trying to be set. 
+    this.strengthCheck();
   }
+
+  strengthCheck() {
+    //check strength of password against regex expressions for simplicity and saving space
+    //the regex is shamelessly lifted from https://martech.zone/javascript-password-strength/
+    const strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+    const mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+    const enoughRegex = new RegExp("(?=.{6,}).*", "g");
+    let password = this.state.password;
+    if (password.length === 0) {
+      this.setState({passwordStrength: "Type Password"});
+      } else if (!enoughRegex.test(password)) {
+        this.setState({passwordStrength: "Please Use More Characters"});
+      } else if (strongRegex.test(password)) {
+        this.setState({passwordStrength: "Strong!"});
+      } else if (mediumRegex.test(password)) {
+        this.setState({passwordStrength: "Ok!"});
+      } else {
+        this.setState({passwordStrength: "Weak!"});
+      }
+  }
+
   handleSubmit(event) {
     console.log("sign-up handleSubmit, username: ");
     console.log(this.state.username);
@@ -59,7 +84,6 @@ class Signup extends Component {
         errorMessage:
           "Passwords must match."
       })
-      alert("Please make sure password and confirm password are the same");
     }
   }
 
@@ -101,6 +125,7 @@ class Signup extends Component {
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
+                <span id="strength">Strength: {this.state.passwordStrength}</span>
               </div>
             </div>
             <div className="form-group-row">
