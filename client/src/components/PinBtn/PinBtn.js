@@ -19,7 +19,8 @@ class PinBtn extends React.Component {
       locComment: "",
       locCategory: "",
       locPhoto: { file: "", imagePreviewUrl: "" },
-      locImgur: ""
+      locImgur: "",
+      errorMessage: ""
     };
 
     this.toggle = this.toggle.bind(this);
@@ -28,48 +29,54 @@ class PinBtn extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     // TODO: do something with -> this.state.file
-    console.log("handle uploading-");
-    let tempImgUrl = this.state.imagePreviewUrl.split(",");
-    let image = tempImgUrl[1];
-    let form = new FormData();
-    form.append("image", image);
-    console.log(image);
+    if (this.state.locPhoto.file.length > 0) {
+      console.log("handle uploading-");
+      let tempImgUrl = this.state.imagePreviewUrl.split(",");
+      let image = tempImgUrl[1];
+      let form = new FormData();
+      form.append("image", image);
+      console.log(image);
 
-    const myClientID = "bee8ee0ba7a0d8c";
+      const myClientID = "bee8ee0ba7a0d8c";
 
-    const config = {
-      baseURL: "https://api.imgur.com",
-      headers: {
-        Authorization: "Client-ID " + myClientID
-      }
-    };
-    axios
-      .post("/3/image", form, config)
-      .then(result => {
-        console.log("image post success");
-        console.log(result);
-        this.setState({
-          locImgur: result.data.data.link
+      const config = {
+        baseURL: "https://api.imgur.com",
+        headers: {
+          Authorization: "Client-ID " + myClientID
+        }
+      };
+      axios
+        .post("/3/image", form, config)
+        .then(result => {
+          console.log("image post success");
+          console.log(result);
+          this.setState({
+            locImgur: result.data.data.link
+          });
+          this.props.newPin({
+            name: this.state.locName,
+            location: {
+              lat: this.props.userLoc.lat,
+              long: this.props.userLoc.lng
+            },
+            user: this.props.user,
+            comments: this.state.locComment,
+            category: this.state.locCategory,
+            image: this.state.locImgur
+          });
+          this.setState({
+            modal: false
+          });
+        })
+        .catch(error => {
+          console.log("image post error");
+          console.log(error);
         });
-        this.props.newPin({
-          name: this.state.locName,
-          location: {
-            lat: this.props.userLoc.lat,
-            long: this.props.userLoc.lng
-          },
-          user: this.props.user,
-          comments: this.state.locComment,
-          category: this.state.locCategory,
-          image: this.state.locImgur
-        });
-        this.setState({
-          modal: false
-        });
-      })
-      .catch(error => {
-        console.log("image post error");
-        console.log(error);
+    } else {
+      this.setState({
+        errorMessage: "Please add a photo"
       });
+    }
   }
 
   handleImageChange(e) {
@@ -81,7 +88,8 @@ class PinBtn extends React.Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
+        errorMessage: ""
       });
     };
 
@@ -105,7 +113,7 @@ class PinBtn extends React.Component {
     let $imagePreview = null;
     if (imagePreviewUrl) {
       $imagePreview = <img id="img-loader" src={imagePreviewUrl} alt=" " />;
-    } 
+    }
     // else {
     //   $imagePreview = (
     //     <div className="preview-text">Add a photo</div>
@@ -117,70 +125,73 @@ class PinBtn extends React.Component {
           +
         </Button>
         <div className="modal-container">
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-          size="fluid"
-          position="bottom"
-        >
-          <ModalHeader className="header">Add New Location</ModalHeader>
-          <ModalBody>
-            <div className="form-group">
-              <label> Category:</label>
-              <select
-                className="form-control"
-                onChange={this.handleInputChange}
-                name="locCategory"
-              >
-                <option>Brewery</option>
-                <option>Restaurants</option>
-                <option>Local Flavor</option>
-                <option>Concert Venue</option>
-                <option>Parks</option>
-              </select>
-            </div>
-            <label>Location Name</label>
-            <input
-              type="text"
-              className="form-control"
-              label="Loaction Name"
-              id="location-name"
-              name="locName"
-              onChange={this.handleInputChange}
-            />
-            <label>Comments</label>
-            <textarea
-              type="textarea"
-              className="form-control form-control-lg"
-              label="Add Comments"
-              id="location-comment"
-              name="locComment"
-              onChange={this.handleInputChange}
-            />
-            <form>
+          <Modal
+            isOpen={this.state.modal}
+            toggle={this.toggle}
+            size="fluid"
+            position="bottom"
+          >
+            <ModalHeader className="header">Add New Location</ModalHeader>
+            <ModalBody>
+              <div className="form-group">
+                <label> Category:</label>
+                <select
+                  className="form-control"
+                  onChange={this.handleInputChange}
+                  name="locCategory"
+                >
+                  <option>Brewery</option>
+                  <option>Restaurants</option>
+                  <option>Local Flavor</option>
+                  <option>Concert Venue</option>
+                  <option>Parks</option>
+                </select>
+              </div>
+              <label>Location Name</label>
               <input
-                className="input-file"
-                type="file"
-                id="photo-upload"
-                onChange={e => this.handleImageChange(e)}
+                type="text"
+                className="form-control"
+                label="Loaction Name"
+                id="location-name"
+                name="locName"
+                onChange={this.handleInputChange}
               />
-              <label htmlFor="photo-upload" className="btn-large-modal"><Fa id="camera-icon" icon="camera-retro" size="2x" /></label>
-              <div className="img-preview">{$imagePreview}</div>
-            </form>
-            
-          </ModalBody>
-          <ModalFooter className="footer">
-            <Button className="btn-large-modal" onClick={this.toggle}>
-              <Fa icon="times" size="2x" />
-            </Button>{" "}
-            <Button
-              className="btn-large-modal"
-              onClick={e => this.handleSubmit(e)}
-            >
-              <Fa icon="save" size="2x" />
-            </Button>
-          </ModalFooter>
-        </Modal>
+              <label>Comments</label>
+              <textarea
+                type="textarea"
+                className="form-control form-control-lg"
+                label="Add Comments"
+                id="location-comment"
+                name="locComment"
+                onChange={this.handleInputChange}
+              />
+              <form>
+                <input
+                  className="input-file"
+                  type="file"
+                  id="photo-upload"
+                  onChange={e => this.handleImageChange(e)}
+                />
+                <label htmlFor="photo-upload" className="btn-large-modal">
+                  <i class="material-icons md-24" id="photo-icon">photo_camera</i>
+                </label>
+                <div className="img-preview">{$imagePreview}</div>
+              </form>
+              <span className=".error-message">{this.state.errorMessage}</span>
+            </ModalBody>
+            <ModalFooter className="footer">
+              <Button className="btn-large-modal" onClick={this.toggle}>
+                <i class="material-icons md-24">cancel</i>
+              </Button>{" "}
+              <Button
+                className="btn-large-modal"
+                onClick={e => this.handleSubmit(e)}
+              >
+                <i class="material-icons md-24">save</i>
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </div>
       </div>
     );
   }

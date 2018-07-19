@@ -68,7 +68,7 @@ class LoginForm extends Component {
       return <Redirect to={{ pathname: this.state.redirectTo }} />;
     } else {
       return (
-        <div className="container">
+        <div className="container login-signup-bg">
           <form id="form-mainbox">
             <h1>roam</h1>
             <p className="error-message">{this.state.errorMessage}</p>
@@ -110,7 +110,7 @@ class LoginForm extends Component {
               Log In
             </button>
             <br />
-            <a href="/signup">
+            <a class="splash-link" href="/signup">
               Not a member? Register here.
             </a>
           </form>

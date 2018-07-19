@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Button, ButtonGroup, NavbarNav, NavItem, Fa } from "mdbreact";
+import { Navbar, NavbarNav, NavItem, Fa } from "mdbreact";
 import { Link, Redirect, BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 //import ToolbarFeatures from '../Toolbar/toolbar';
@@ -55,22 +55,22 @@ class NavbarFeatures extends React.Component {
             <NavbarNav center="true">
               <NavItem>
                 <Link to="/home/pins">
-                  <Fa icon="map-marker" />
+                  <i class="material-icons">place</i>
                 </Link>
               </NavItem>
               <NavItem>
                 <Link to="/home/search">
-                  <Fa icon="binoculars" />
+                  <i class="material-icons">search</i>
                 </Link>
               </NavItem>
               <NavItem>
                 <Link to="/home/saved">
-                  <Fa icon="list" />
+                  <i class="material-icons">view_list</i>
                 </Link>
               </NavItem>
               <NavItem>
                 <Link to="/" onClick={this.logout}>
-                  <Fa icon="sign-out" />
+                  <i class="material-icons">exit_to_app</i>
                 </Link>
               </NavItem>
             </NavbarNav>

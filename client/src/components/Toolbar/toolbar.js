@@ -7,22 +7,25 @@ class ToolbarFeatures extends React.Component {
     return (
       <div>
         <div className="background modal-container">
-          {/* <div className="toolbar"> */}
+          <div className="toolbar">
           <Button
             className="btn-circle"
-            onClick={e => this.props.catClick("breweries", e)}
+            onClick={e => this.props.catClick("coffee", e)}
           >
-            <Fa icon="beer" />
+            <i class="material-icons md-18">local_cafe</i>
           </Button>
-          {/* <Button className="btn-circle">
-              <Fa icon="shopping-bag" />
-            </Button> */}
           <Button
             className="btn-circle"
             onClick={e => this.props.catClick("restaurants", e)}
           >
-            <Fa icon="apple" id="apple" />
+            <i class="material-icons md-18">restaurant</i>
+          </Button><Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("bars", e)}
+          >
+            <i class="material-icons md-18">local_bar</i>
           </Button>
+          
           <Button
             className="btn-circle"
             onClick={e => this.props.catClick("local flavor", e)}
@@ -33,18 +36,21 @@ class ToolbarFeatures extends React.Component {
             className="btn-circle"
             onClick={e => this.props.catClick("concert venues", e)}
           >
-            <Fa icon="headphones" />
+            <i class="material-icons md-18">music_note</i>
           </Button>
           <Button
             className="btn-circle"
             onClick={e => this.props.catClick("parks", e)}
           >
-            <Fa icon="bicycle" />
+            <i class="material-icons md-18">local_florist</i>
           </Button>
-          {/* <Button className="btn-circle">
-              <Fa icon="users" />
-            </Button> */}
-          {/* </div> */}
+          <Button
+            className="btn-circle"
+            onClick={e => this.props.catClick("hiking", e)}
+          >
+            <i class="material-icons md-18">terrain</i>
+          </Button>
+          </div>
         </div>
 
         {/* <div>

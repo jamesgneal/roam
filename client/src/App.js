@@ -63,7 +63,7 @@ class App extends Component {
           loggedIn: true,
           username: response.data.user.username
         });
-        this.loadUserPins(this.state.username);
+        this.loadUserPins(response.data.user.username);
       } else {
         console.log("Get user: no user");
         this.setState({
